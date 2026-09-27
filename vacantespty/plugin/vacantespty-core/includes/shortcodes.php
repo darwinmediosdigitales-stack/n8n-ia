@@ -217,14 +217,10 @@ add_shortcode(
 	}
 );
 
-/** Call to action for companies to publish a vacancy via WhatsApp. */
+/** Call to action for companies: they reach the brand by Instagram direct message. */
 add_shortcode(
 	'vpty_publicar',
 	function () {
-		$url = vpty_whatsapp_url( vpty_setting( 'whatsapp_empresas' ), __( 'Hola, quiero publicar una vacante en Vacantes PTY.', 'vacantespty' ) );
-		if ( ! $url ) {
-			return current_user_can( 'edit_theme_options' ) ? '<p><em>' . esc_html__( 'Configura el WhatsApp para empresas en Apariencia → Personalizar → Vacantes PTY.', 'vacantespty' ) . '</em></p>' : '';
-		}
-		return '<p><a class="vpty-btn vpty-btn--whatsapp" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html__( 'Publicar vacante por WhatsApp', 'vacantespty' ) . '</a></p>';
+		return '<p><a class="vpty-btn vpty-btn--accent" href="' . esc_url( vpty_instagram_dm_url( __( 'Hola, quiero publicar una vacante en Vacantes PTY.', 'vacantespty' ) ) ) . '" target="_blank" rel="noopener" data-vpty-track="publicar_click" data-vpty-point="publicar">' . esc_html__( 'Escríbenos por Instagram para publicar', 'vacantespty' ) . '</a></p>';
 	}
 );

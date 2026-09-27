@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VPTY_THEME_VERSION', '1.0.0' );
+define( 'VPTY_THEME_VERSION', '1.1.0' );
 
 add_action(
 	'after_setup_theme',
@@ -149,28 +149,16 @@ add_action(
 );
 
 function vpty_social_links() {
-	$networks = array(
-		'facebook'  => 'Facebook',
-		'instagram' => 'Instagram',
-		'tiktok'    => 'TikTok',
-		'linkedin'  => 'LinkedIn',
-	);
-	$html = '';
-	foreach ( $networks as $key => $label ) {
-		$url = vpty_theme_setting( $key );
-		if ( $url ) {
-			$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $label ) . '</a>';
-		}
-	}
-	return $html;
+	return function_exists( 'vpty_social_icons' ) ? vpty_social_icons() : '';
 }
 
 /** Fallback menu until the owner builds one in Apariencia → Menús. */
 function vpty_default_menu() {
 	$items = array(
 		get_post_type_archive_link( 'vacante' ) => __( 'Empleos', 'vacantespty' ),
-		home_url( '/empleos-de/sin-experiencia-primer-empleo/' ) => __( 'Sin experiencia', 'vacantespty' ),
-		home_url( '/calculadora-salario-neto-panama/' ) => __( 'Calculadora', 'vacantespty' ),
+		home_url( '/alertas-de-vacantes/' )    => __( 'Alertas', 'vacantespty' ),
+		home_url( '/capacitate/' )             => __( 'Capacítate', 'vacantespty' ),
+		home_url( '/curriculum-profesional/' ) => __( 'Tu CV', 'vacantespty' ),
 	);
 	$blog = get_option( 'page_for_posts' );
 	if ( $blog ) {

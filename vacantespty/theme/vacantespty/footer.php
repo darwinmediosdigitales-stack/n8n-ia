@@ -1,5 +1,17 @@
 </main>
 
+<?php if ( function_exists( 'vpty_channel_link' ) ) : ?>
+	<section class="footer-community">
+		<div class="container footer-community__inner">
+			<div>
+				<strong><?php esc_html_e( 'Únete a la comunidad Vacantes PTY', 'vacantespty' ); ?></strong>
+				<span><?php esc_html_e( 'Más de 2,000 personas ya reciben vacantes diarias en WhatsApp.', 'vacantespty' ); ?></span>
+			</div>
+			<?php echo vpty_channel_link( 'footer', __( 'Seguir el canal', 'vacantespty' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		</div>
+	</section>
+<?php endif; ?>
+
 <footer class="site-footer">
 	<div class="container site-footer__grid">
 		<div class="site-footer__about">
@@ -7,8 +19,8 @@
 				<span class="brand__mark">VP</span>
 				<span class="brand__text">vacantes<b>pty</b></span>
 			</a>
-			<p><?php esc_html_e( 'El portal de empleo de Panamá con salarios visibles, empresas verificadas y aplicación directa por WhatsApp.', 'vacantespty' ); ?></p>
-			<div class="social"><?php echo vpty_social_links(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper. ?></div>
+			<p><?php esc_html_e( 'El portal de empleo de Panamá con salarios visibles, empresas verificadas y aplicación directa con la empresa.', 'vacantespty' ); ?></p>
+			<?php echo vpty_social_links(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper. ?>
 		</div>
 
 		<?php if ( taxonomy_exists( 'categoria_empleo' ) ) : ?>
@@ -50,6 +62,12 @@
 			);
 			?>
 		</div>
+	</div>
+	<div class="container site-footer__legal">
+		<a href="<?php echo esc_url( home_url( '/politica-de-privacidad/' ) ); ?>"><?php esc_html_e( 'Política de Privacidad', 'vacantespty' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/divulgacion-de-afiliados/' ) ); ?>"><?php esc_html_e( 'Divulgación de afiliados', 'vacantespty' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/alertas-de-vacantes/' ) ); ?>"><?php esc_html_e( 'Alertas de vacantes', 'vacantespty' ); ?></a>
+		<p><?php esc_html_e( 'Algunos enlaces del sitio son de afiliado: si compras a través de ellos podemos recibir una comisión, sin costo extra para ti.', 'vacantespty' ); ?></p>
 	</div>
 	<div class="container site-footer__bottom">
 		<span>© <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'Hecho en Panamá 🇵🇦', 'vacantespty' ); ?></span>

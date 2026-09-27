@@ -2,7 +2,6 @@
 get_header();
 
 $archive_url = vpty_core_active() ? get_post_type_archive_link( 'vacante' ) : home_url( '/' );
-$alertas     = vpty_theme_setting( 'canal_alertas' );
 ?>
 
 <section class="hero">
@@ -115,9 +114,9 @@ $alertas     = vpty_theme_setting( 'canal_alertas' );
 			<p><?php esc_html_e( 'Revisamos a las empresas para protegerte de estafas y ofertas falsas.', 'vacantespty' ); ?></p>
 		</div>
 		<div class="promise__item">
-			<span class="promise__icon">💬</span>
-			<h3><?php esc_html_e( 'Aplica por WhatsApp', 'vacantespty' ); ?></h3>
-			<p><?php esc_html_e( 'Un clic y hablas directo con quien contrata. Sin registros eternos.', 'vacantespty' ); ?></p>
+			<span class="promise__icon">🎯</span>
+			<h3><?php esc_html_e( 'Aplica directo con la empresa', 'vacantespty' ); ?></h3>
+			<p><?php esc_html_e( 'Sin registros ni intermediarios: te llevamos al canal oficial de postulación.', 'vacantespty' ); ?></p>
 		</div>
 	</div>
 </section>
@@ -131,12 +130,14 @@ $alertas     = vpty_theme_setting( 'canal_alertas' );
 			<span class="vpty-btn vpty-btn--primary"><?php esc_html_e( 'Abrir calculadora', 'vacantespty' ); ?></span>
 		</a>
 		<div class="duo__card duo__card--dark">
-			<span class="duo__kicker"><?php esc_html_e( 'Alertas de empleo', 'vacantespty' ); ?></span>
-			<h3><?php esc_html_e( 'Recibe las vacantes nuevas en tu WhatsApp', 'vacantespty' ); ?></h3>
-			<p><?php esc_html_e( 'Únete al canal y entérate primero. Los primeros en aplicar son los primeros en ser llamados.', 'vacantespty' ); ?></p>
-			<?php if ( $alertas ) : ?>
-				<a class="vpty-btn vpty-btn--whatsapp" href="<?php echo esc_url( $alertas ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Unirme al canal', 'vacantespty' ); ?></a>
-			<?php endif; ?>
+			<span class="duo__kicker"><?php esc_html_e( 'Comunidad de +2,000 personas', 'vacantespty' ); ?></span>
+			<h3><?php esc_html_e( 'Únete a la comunidad Vacantes PTY', 'vacantespty' ); ?></h3>
+			<p><?php esc_html_e( 'Vacantes nuevas todos los días en nuestro canal de WhatsApp. Los primeros en aplicar son los primeros en ser llamados.', 'vacantespty' ); ?></p>
+			<?php
+			if ( function_exists( 'vpty_channel_link' ) ) {
+				echo vpty_channel_link( 'inicio', __( 'Seguir el canal de WhatsApp', 'vacantespty' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+			}
+			?>
 		</div>
 	</div>
 </section>

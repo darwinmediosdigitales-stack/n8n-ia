@@ -6,20 +6,21 @@ defined( 'ABSPATH' ) || exit;
 function vpty_settings_defaults() {
 	return array(
 		'hero_titulo'       => __( 'Tu próximo empleo en Panamá, hoy.', 'vacantespty' ),
-		'hero_subtitulo'    => __( 'Vacantes nuevas cada día, con salario visible, empresas verificadas y aplicación directa por WhatsApp.', 'vacantespty' ),
-		'whatsapp_empresas' => '',
-		'canal_alertas'     => '',
+		'hero_subtitulo'    => __( 'Vacantes nuevas cada día, con salario visible, empresas verificadas y aplicación directa con la empresa.', 'vacantespty' ),
 		'facebook'          => '',
-		'instagram'         => '',
-		'tiktok'            => '',
+		'instagram'         => 'https://www.instagram.com/vacantes_pty_/',
+		'youtube'           => 'https://www.youtube.com/@Vacantes_pty',
+		'tiktok'            => 'https://www.tiktok.com/@vacantes_pty',
 		'linkedin'          => '',
 	);
 }
 
 function vpty_setting( $key ) {
 	$defaults = vpty_settings_defaults();
-	$value    = get_theme_mod( 'vpty_' . $key, isset( $defaults[ $key ] ) ? $defaults[ $key ] : '' );
-	return is_string( $value ) ? trim( $value ) : $value;
+	$default  = isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
+	$value    = get_theme_mod( 'vpty_' . $key, $default );
+	$value    = is_string( $value ) ? trim( $value ) : $value;
+	return '' === $value ? $default : $value;
 }
 
 add_action(
@@ -30,11 +31,10 @@ add_action(
 		$fields = array(
 			'hero_titulo'       => array( __( 'Título principal de la portada', 'vacantespty' ), 'text', 'sanitize_text_field' ),
 			'hero_subtitulo'    => array( __( 'Subtítulo de la portada', 'vacantespty' ), 'textarea', 'sanitize_textarea_field' ),
-			'whatsapp_empresas' => array( __( 'WhatsApp para empresas (publicar vacantes)', 'vacantespty' ), 'text', 'sanitize_text_field' ),
-			'canal_alertas'     => array( __( 'Enlace del canal de WhatsApp o Telegram (alertas de empleo)', 'vacantespty' ), 'url', 'esc_url_raw' ),
-			'facebook'          => array( 'Facebook', 'url', 'esc_url_raw' ),
 			'instagram'         => array( 'Instagram', 'url', 'esc_url_raw' ),
+			'youtube'           => array( 'YouTube', 'url', 'esc_url_raw' ),
 			'tiktok'            => array( 'TikTok', 'url', 'esc_url_raw' ),
+			'facebook'          => array( 'Facebook', 'url', 'esc_url_raw' ),
 			'linkedin'          => array( 'LinkedIn', 'url', 'esc_url_raw' ),
 		);
 		$defaults = vpty_settings_defaults();
@@ -90,7 +90,7 @@ function vpty_activate() {
 	}
 
 	vpty_create_page( 'calculadora-salario-neto-panama', __( 'Calculadora de salario neto en Panamá', 'vacantespty' ), "<!-- wp:paragraph -->\n<p>" . __( 'Calcula cuánto recibirás realmente después de Seguro Social, Seguro Educativo e Impuesto sobre la Renta. También calcula tu décimo tercer mes.', 'vacantespty' ) . "</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[vpty_calculadora]\n<!-- /wp:shortcode -->" );
-	vpty_create_page( 'publicar-vacante', __( 'Publicar vacante', 'vacantespty' ), "<!-- wp:paragraph -->\n<p>" . __( '¿Tu empresa está contratando? Publica tu vacante en Vacantes PTY y llega a miles de candidatos en todo Panamá. Tu vacante aparece en Google Empleos, en nuestras redes y en nuestro canal de alertas.', 'vacantespty' ) . "</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[vpty_publicar]\n<!-- /wp:shortcode -->" );
+	vpty_create_page( 'publicar-vacante', __( 'Publicar vacante', 'vacantespty' ), "<!-- wp:paragraph -->\n<p>" . __( '¿Tu empresa está contratando? Publica tu vacante en Vacantes PTY y llega a miles de candidatos en todo Panamá: casi 7 mil seguidores en Instagram, más de 2,000 personas en nuestra comunidad de WhatsApp y presencia en Google Empleos.', 'vacantespty' ) . "</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[vpty_publicar]\n<!-- /wp:shortcode -->" );
 
 	// Only set up a static home + blog page when the site still uses the default "latest posts" home.
 	if ( 'posts' === get_option( 'show_on_front' ) ) {
@@ -104,6 +104,10 @@ function vpty_activate() {
 	}
 
 	vpty_create_sample_jobs();
+	vpty_create_tables();
+	vpty_create_growth_pages();
+	vpty_seed_resources();
+	update_option( 'vpty_schema_version', VPTY_SCHEMA_VERSION );
 	flush_rewrite_rules();
 }
 
@@ -162,7 +166,7 @@ function vpty_create_sample_jobs() {
 			'destacada'       => $s[8],
 			'verificada'      => '1',
 			'ciudad'          => $s[2],
-			'whatsapp'        => '60000000',
+			'url'             => home_url( '/' ),
 			'vence'           => $vence,
 		);
 		foreach ( $meta as $key => $value ) {

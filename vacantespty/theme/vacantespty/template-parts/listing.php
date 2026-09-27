@@ -70,8 +70,12 @@ global $wp_query;
 				while ( have_posts() ) {
 					the_post();
 					echo vpty_job_card(); // phpcs:ignore WordPress.Security.EscapeOutput
-					if ( 5 === ++$i ) {
+					++$i;
+					if ( 5 === $i ) {
 						vpty_theme_banner( 'listing' );
+					}
+					if ( 10 === $i && function_exists( 'vpty_channel_link' ) ) {
+						echo '<div class="community-strip"><div><strong>' . esc_html__( 'Únete a la comunidad Vacantes PTY', 'vacantespty' ) . '</strong><span>' . esc_html__( 'Recibe vacantes como estas todos los días en WhatsApp.', 'vacantespty' ) . '</span></div>' . vpty_channel_link( 'listado', __( 'Seguir el canal', 'vacantespty' ) ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 					}
 				}
 				?>
@@ -97,6 +101,14 @@ global $wp_query;
 	</div>
 
 	<aside class="layout__side">
+		<?php if ( function_exists( 'vpty_channel_link' ) ) : ?>
+			<div class="side-box side-box--cta">
+				<h3><?php esc_html_e( 'Únete a la comunidad Vacantes PTY', 'vacantespty' ); ?></h3>
+				<p><?php esc_html_e( 'Vacantes diarias en nuestro canal de WhatsApp.', 'vacantespty' ); ?></p>
+				<?php echo vpty_channel_link( 'listado', __( 'Seguir el canal', 'vacantespty' ), 'vpty-btn vpty-btn--whatsapp vpty-btn--block' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<a class="vpty-link vpty-link--light" href="<?php echo esc_url( home_url( '/alertas-de-vacantes/' ) ); ?>"><?php esc_html_e( 'o activa alertas por correo →', 'vacantespty' ); ?></a>
+			</div>
+		<?php endif; ?>
 		<?php vpty_theme_banner( 'sidebar' ); ?>
 		<div class="side-box">
 			<h3><?php esc_html_e( 'Categorías', 'vacantespty' ); ?></h3>

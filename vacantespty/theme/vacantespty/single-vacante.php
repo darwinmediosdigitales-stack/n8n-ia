@@ -10,9 +10,7 @@ while ( have_posts() ) :
 	$categoria = vpty_first_term( 'categoria_empleo' );
 	$modalidad = vpty_option_label( vpty_modalidades(), vpty_get( 'modalidad' ) );
 	$tipo      = vpty_option_label( vpty_tipos_contrato(), vpty_get( 'tipo' ) );
-	$wa        = vpty_apply_whatsapp_url();
-	$email     = vpty_get( 'email' );
-	$url       = vpty_get( 'url' );
+	$apply     = vpty_apply_action();
 	$vence     = vpty_get( 'vence' );
 	$expired   = vpty_is_expired();
 	?>
@@ -80,32 +78,36 @@ while ( have_posts() ) :
 				🛡️ <?php esc_html_e( 'Ninguna empresa legítima te pedirá dinero para contratarte. Si te piden pagos, repórtalo.', 'vacantespty' ); ?>
 			</div>
 
-			<?php vpty_theme_banner( 'job-bottom' ); ?>
+			<?php
+			if ( function_exists( 'vpty_share_buttons' ) ) {
+				echo vpty_share_buttons(); // phpcs:ignore WordPress.Security.EscapeOutput
+			}
+			if ( function_exists( 'vpty_profile_block' ) ) {
+				echo vpty_profile_block( get_the_ID() ); // phpcs:ignore WordPress.Security.EscapeOutput
+			}
+			vpty_theme_banner( 'job-bottom' );
+			?>
 		</article>
 
 		<aside class="layout__side">
 			<div class="apply-box">
 				<?php if ( $expired ) : ?>
 					<p class="apply-box__title"><?php esc_html_e( 'Vacante cerrada', 'vacantespty' ); ?></p>
+				<?php elseif ( $apply ) : ?>
+					<p class="apply-box__title"><?php esc_html_e( '¿Te interesa? Aplica directo con la empresa', 'vacantespty' ); ?></p>
+					<a class="vpty-btn vpty-btn--primary vpty-btn--lg vpty-btn--block" href="<?php echo esc_url( $apply['url'] ); ?>" <?php echo 'email' === $apply['type'] ? '' : 'target="_blank" rel="noopener nofollow"'; ?> data-vpty-track="apply_click" data-vpty-point="<?php echo esc_attr( $apply['type'] ); ?>"><?php echo esc_html( $apply['label'] ); ?></a>
+					<p class="apply-box__meta"><?php esc_html_e( 'Postulas directamente con la empresa. Vacantes PTY no pide datos para aplicar.', 'vacantespty' ); ?></p>
 				<?php else : ?>
-					<p class="apply-box__title"><?php esc_html_e( '¿Te interesa? Aplica ahora', 'vacantespty' ); ?></p>
-					<?php if ( $wa ) : ?>
-						<a class="vpty-btn vpty-btn--whatsapp vpty-btn--block" href="<?php echo esc_url( $wa ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Aplicar por WhatsApp', 'vacantespty' ); ?></a>
-					<?php endif; ?>
-					<?php if ( $email ) : ?>
-						<a class="vpty-btn vpty-btn--primary vpty-btn--block" href="<?php echo esc_url( 'mailto:' . $email . '?subject=' . rawurlencode( get_the_title() ) ); ?>"><?php esc_html_e( 'Enviar hoja de vida', 'vacantespty' ); ?></a>
-					<?php endif; ?>
-					<?php if ( $url ) : ?>
-						<a class="vpty-btn vpty-btn--ghost vpty-btn--block" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener nofollow"><?php esc_html_e( 'Aplicar en el sitio de la empresa', 'vacantespty' ); ?></a>
-					<?php endif; ?>
-					<?php if ( $vence ) : ?>
-						<p class="apply-box__meta">
-							<?php
-							/* translators: %s: closing date */
-							echo esc_html( sprintf( __( 'Cierra el %s', 'vacantespty' ), date_i18n( get_option( 'date_format' ), strtotime( $vence ) ) ) );
-							?>
-						</p>
-					<?php endif; ?>
+					<p class="apply-box__title"><?php esc_html_e( 'Cómo aplicar', 'vacantespty' ); ?></p>
+					<p class="apply-box__meta"><?php esc_html_e( 'Revisa las instrucciones de postulación en la descripción.', 'vacantespty' ); ?></p>
+				<?php endif; ?>
+				<?php if ( $vence && ! $expired ) : ?>
+					<p class="apply-box__meta">
+						<?php
+						/* translators: %s: closing date */
+						echo esc_html( sprintf( __( 'Cierra el %s', 'vacantespty' ), date_i18n( get_option( 'date_format' ), strtotime( $vence ) ) ) );
+						?>
+					</p>
 				<?php endif; ?>
 				<p class="apply-box__meta">
 					<?php
@@ -113,13 +115,18 @@ while ( have_posts() ) :
 					echo esc_html( sprintf( __( 'Publicada el %s', 'vacantespty' ), get_the_date() ) );
 					?>
 				</p>
-				<div class="share">
-					<span><?php esc_html_e( 'Compartir:', 'vacantespty' ); ?></span>
-					<a href="<?php echo esc_url( 'https://wa.me/?text=' . rawurlencode( get_the_title() . ' ' . get_permalink() ) ); ?>" target="_blank" rel="noopener">WhatsApp</a>
-					<a href="<?php echo esc_url( 'https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( get_permalink() ) ); ?>" target="_blank" rel="noopener">Facebook</a>
-					<a href="<?php echo esc_url( 'https://www.linkedin.com/sharing/share-offsite/?url=' . rawurlencode( get_permalink() ) ); ?>" target="_blank" rel="noopener">LinkedIn</a>
-				</div>
 			</div>
+
+			<?php if ( function_exists( 'vpty_lead_form' ) ) : ?>
+				<details class="lead-box">
+					<summary>
+						<span class="lead-box__title" data-ab-a="<?php esc_attr_e( '🔔 Recibe vacantes como esta en tu WhatsApp o correo', 'vacantespty' ); ?>" data-ab-b="<?php esc_attr_e( '🔔 ¿Quieres que te avisemos de más vacantes así?', 'vacantespty' ); ?>"><?php esc_html_e( '🔔 Recibe vacantes como esta en tu WhatsApp o correo', 'vacantespty' ); ?></span>
+						<span class="lead-box__sub"><?php esc_html_e( 'Gratis. Toca para activar la alerta.', 'vacantespty' ); ?></span>
+					</summary>
+					<?php echo vpty_lead_form( array( 'punto' => 'vacante', 'categoria' => vpty_lead_category_for_job( get_the_ID() ), 'compact' => true, 'boton' => __( 'Activar alerta', 'vacantespty' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				</details>
+				<p class="lead-box__alt"><?php echo vpty_channel_link( 'vacante', __( 'o sigue el canal de Vacantes PTY en WhatsApp', 'vacantespty' ), 'vpty-link' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></p>
+			<?php endif; ?>
 			<?php vpty_theme_banner( 'sidebar' ); ?>
 		</aside>
 	</div>
@@ -152,9 +159,9 @@ while ( have_posts() ) :
 		<?php
 	endif;
 
-	if ( ! $expired && $wa ) :
+	if ( ! $expired && $apply ) :
 		?>
-		<a class="apply-sticky vpty-btn vpty-btn--whatsapp" href="<?php echo esc_url( $wa ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Aplicar por WhatsApp', 'vacantespty' ); ?></a>
+		<a class="apply-sticky vpty-btn vpty-btn--primary" href="<?php echo esc_url( $apply['url'] ); ?>" <?php echo 'email' === $apply['type'] ? '' : 'target="_blank" rel="noopener nofollow"'; ?> data-vpty-track="apply_click" data-vpty-point="sticky"><?php echo esc_html( $apply['label'] ); ?></a>
 		<?php
 	endif;
 endwhile;

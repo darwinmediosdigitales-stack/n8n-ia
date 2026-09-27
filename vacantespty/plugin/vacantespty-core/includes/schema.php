@@ -45,7 +45,7 @@ function vpty_job_schema( $post_id ) {
 				)
 			),
 		),
-		'directApply'    => (bool) ( vpty_get( 'whatsapp', $post_id ) || vpty_get( 'email', $post_id ) ),
+		'directApply'    => false, // Candidates apply on the company's own channel.
 	);
 
 	if ( $vence ) {
@@ -103,12 +103,12 @@ add_action(
 			$desc = has_excerpt() ? get_the_excerpt() : wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', get_the_ID() ) ), 28, '…' );
 		} elseif ( is_tax( 'categoria_empleo' ) ) {
 			/* translators: %s: category name */
-			$desc = sprintf( __( 'Vacantes de %s en Panamá actualizadas hoy. Salarios visibles y aplicación directa por WhatsApp.', 'vacantespty' ), single_term_title( '', false ) );
+			$desc = sprintf( __( 'Vacantes de %s en Panamá actualizadas hoy. Salarios visibles y aplicación directa con la empresa.', 'vacantespty' ), single_term_title( '', false ) );
 		} elseif ( is_tax( 'provincia' ) ) {
 			/* translators: %s: province name */
 			$desc = sprintf( __( 'Empleos en %s, Panamá: vacantes nuevas cada día con salario visible y aplicación directa.', 'vacantespty' ), single_term_title( '', false ) );
 		} elseif ( is_front_page() || is_post_type_archive( 'vacante' ) ) {
-			$desc = __( 'Encuentra empleo en Panamá hoy: vacantes con salario visible, empresas verificadas y aplicación directa por WhatsApp.', 'vacantespty' );
+			$desc = __( 'Encuentra empleo en Panamá hoy: vacantes con salario visible, empresas verificadas y aplicación directa con la empresa.', 'vacantespty' );
 		}
 		if ( $desc ) {
 			echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";

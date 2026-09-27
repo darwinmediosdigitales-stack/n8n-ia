@@ -17,9 +17,9 @@ function vpty_job_fields() {
 		'salario_max'     => array( 'label' => __( 'Salario máximo (B/.)', 'vacantespty' ), 'type' => 'number' ),
 		'salario_periodo' => array( 'label' => __( 'Salario por', 'vacantespty' ), 'type' => 'select', 'options' => vpty_periodos_salario() ),
 		'experiencia'     => array( 'label' => __( 'Experiencia requerida', 'vacantespty' ), 'type' => 'text', 'placeholder' => '1 año / Sin experiencia' ),
-		'whatsapp'        => array( 'label' => __( 'WhatsApp para aplicar', 'vacantespty' ), 'type' => 'text', 'placeholder' => '6000-0000' ),
-		'email'           => array( 'label' => __( 'Correo para aplicar', 'vacantespty' ), 'type' => 'email' ),
-		'url'             => array( 'label' => __( 'Enlace externo para aplicar', 'vacantespty' ), 'type' => 'url' ),
+		'url'             => array( 'label' => __( 'Enlace para aplicar (formulario o publicación original)', 'vacantespty' ), 'type' => 'url' ),
+		'email'           => array( 'label' => __( 'Correo de la empresa para aplicar', 'vacantespty' ), 'type' => 'email' ),
+		'whatsapp'        => array( 'label' => __( 'WhatsApp de la empresa (solo si la empresa lo publicó)', 'vacantespty' ), 'type' => 'text', 'placeholder' => '6000-0000' ),
 		'vence'           => array( 'label' => __( 'Fecha de cierre', 'vacantespty' ), 'type' => 'date' ),
 	);
 }
@@ -129,4 +129,25 @@ function vpty_initials( $text ) {
 		$initials .= mb_strtoupper( mb_substr( $w, 0, 1 ) );
 	}
 	return $initials ? $initials : 'VP';
+}
+
+/**
+ * Main "Aplicar" action: the company's real application channel, in order of
+ * preference: external form/original post, email, company WhatsApp.
+ */
+function vpty_apply_action( $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	$url     = vpty_get( 'url', $post_id );
+	$email   = vpty_get( 'email', $post_id );
+	if ( $url ) {
+		return array( 'url' => $url, 'label' => __( 'Aplicar a esta vacante', 'vacantespty' ), 'type' => 'url' );
+	}
+	if ( $email ) {
+		return array( 'url' => 'mailto:' . $email . '?subject=' . rawurlencode( get_the_title( $post_id ) ), 'label' => __( 'Aplicar por correo', 'vacantespty' ), 'type' => 'email' );
+	}
+	$wa = vpty_apply_whatsapp_url( $post_id );
+	if ( $wa ) {
+		return array( 'url' => $wa, 'label' => __( 'Aplicar por WhatsApp', 'vacantespty' ), 'type' => 'whatsapp' );
+	}
+	return null;
 }

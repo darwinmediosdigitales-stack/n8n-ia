@@ -31,10 +31,15 @@ while ( have_posts() ) :
 				<?php wp_link_pages(); ?>
 			</div>
 			<?php if ( vpty_core_active() ) : ?>
+				<?php echo vpty_share_buttons(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				<div class="inline-cta">
-					<strong><?php esc_html_e( '¿Listo para aplicar?', 'vacantespty' ); ?></strong>
-					<a class="vpty-btn vpty-btn--accent" href="<?php echo esc_url( get_post_type_archive_link( 'vacante' ) ); ?>"><?php esc_html_e( 'Ver vacantes de hoy', 'vacantespty' ); ?></a>
+					<div>
+						<strong><?php esc_html_e( '¿Quieres enterarte primero de las vacantes?', 'vacantespty' ); ?></strong>
+						<span><?php esc_html_e( 'Síguenos en WhatsApp: publicamos vacantes nuevas todos los días.', 'vacantespty' ); ?></span>
+					</div>
+					<?php echo vpty_channel_link( 'blog', __( 'Seguir el canal', 'vacantespty' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</div>
+				<?php echo vpty_cv_promo_card( 'blog' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<?php endif; ?>
 			<?php
 			if ( comments_open() || get_comments_number() ) {
