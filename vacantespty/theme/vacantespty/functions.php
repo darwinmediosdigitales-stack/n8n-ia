@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VPTY_THEME_VERSION', '1.1.0' );
+define( 'VPTY_THEME_VERSION', '1.1.1' );
 
 add_action(
 	'after_setup_theme',

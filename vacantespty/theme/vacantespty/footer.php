@@ -16,7 +16,7 @@
 	<div class="container site-footer__grid">
 		<div class="site-footer__about">
 			<a class="brand brand--light" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<span class="brand__mark">VP</span>
+				<img class="brand__mark brand__mark--img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-mark.png' ); ?>" width="44" height="44" alt="">
 				<span class="brand__text">vacantes<b>pty</b></span>
 			</a>
 			<p><?php esc_html_e( 'El portal de empleo de Panamá con salarios visibles, empresas verificadas y aplicación directa con la empresa.', 'vacantespty' ); ?></p>

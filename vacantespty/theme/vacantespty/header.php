@@ -16,7 +16,7 @@
 			<?php if ( has_custom_logo() ) : ?>
 				<?php echo wp_get_attachment_image( get_theme_mod( 'custom_logo' ), 'full', false, array( 'class' => 'brand__logo', 'alt' => get_bloginfo( 'name' ) ) ); ?>
 			<?php else : ?>
-				<span class="brand__mark">VP</span>
+				<img class="brand__mark brand__mark--img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo-mark.png' ); ?>" width="44" height="44" alt="">
 				<span class="brand__text">vacantes<b>pty</b></span>
 			<?php endif; ?>
 		</a>
