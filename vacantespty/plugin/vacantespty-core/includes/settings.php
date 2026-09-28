@@ -32,6 +32,26 @@ function vpty_options_schema() {
 				'yappy_sandbox'     => array( __( 'Yappy: modo de pruebas', 'vacantespty' ), 'checkbox', '' ),
 			),
 		),
+		'planes'  => array(
+			'title'  => __( 'Planes de currículum (nombre y precio)', 'vacantespty' ),
+			'fields' => array(
+				'plan_basico_nombre'      => array( __( 'Plan 1: nombre', 'vacantespty' ), 'text', 'Básico' ),
+				'plan_basico_precio'      => array( __( 'Plan 1: precio (B/.)', 'vacantespty' ), 'price', '4.99' ),
+				'plan_profesional_nombre' => array( __( 'Plan 2 (el destacado): nombre', 'vacantespty' ), 'text', 'Profesional' ),
+				'plan_profesional_precio' => array( __( 'Plan 2: precio (B/.)', 'vacantespty' ), 'price', '6.99' ),
+				'plan_premium_nombre'     => array( __( 'Plan 3: nombre', 'vacantespty' ), 'text', 'Marca Personal' ),
+				'plan_premium_precio'     => array( __( 'Plan 3: precio (B/.)', 'vacantespty' ), 'price', '14.99' ),
+			),
+		),
+		'reto'    => array(
+			'title'  => __( 'Reto diario', 'vacantespty' ),
+			'fields' => array(
+				'reto_prize7'     => array( __( 'Premio por 7 días seguidos', 'vacantespty' ), 'text', '50% de descuento en el CV Profesional Premium' ),
+				'reto_prize14'    => array( __( 'Premio por 14 días seguidos', 'vacantespty' ), 'text', 'un CV Básico gratis' ),
+				'reto_house_name' => array( __( 'Anuncio propio: título', 'vacantespty' ), 'text', 'CV Impacto · Vacantes PTY' ),
+				'reto_house_text' => array( __( 'Anuncio propio: texto', 'vacantespty' ), 'text', 'Tu CV Impacto hecho por profesionales por solo B/. 5.99. Pago fácil con Yappy.' ),
+			),
+		),
 	);
 }
 
@@ -91,6 +111,9 @@ function vpty_sanitize_options( $input ) {
 					break;
 				case 'checkbox':
 					$clean[ $key ] = $raw ? '1' : '';
+					break;
+				case 'price':
+					$clean[ $key ] = '' === $raw ? '' : number_format( max( 0, (float) str_replace( ',', '.', $raw ) ), 2, '.', '' );
 					break;
 				default:
 					$clean[ $key ] = sanitize_text_field( ltrim( $raw, '@' ) );

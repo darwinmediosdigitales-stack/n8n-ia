@@ -163,7 +163,12 @@ function vpty_cv_promo_card( $point ) {
 		<div>
 			<span class="vpty-badge vpty-badge--featured"><?php esc_html_e( 'Servicio de Vacantes PTY', 'vacantespty' ); ?></span>
 			<h3><?php esc_html_e( 'Te creamos tu currículum profesional con los mejores sistemas', 'vacantespty' ); ?></h3>
-			<p><?php esc_html_e( 'Formato compatible con los filtros ATS que usan las empresas. Desde B/. 4.99, listo en poco tiempo.', 'vacantespty' ); ?></p>
+			<p>
+				<?php
+				/* translators: %s: lowest plan price */
+				echo esc_html( sprintf( __( 'Formato compatible con los filtros ATS que usan las empresas. Desde %s, listo en poco tiempo.', 'vacantespty' ), vpty_money( vpty_cv_min_price() ) ) );
+				?>
+			</p>
 		</div>
 		<a class="vpty-btn vpty-btn--accent" href="<?php echo esc_url( home_url( '/curriculum-profesional/' ) ); ?>" data-vpty-track="cv_plan_click" data-vpty-point="<?php echo esc_attr( $point ); ?>"><?php esc_html_e( 'Ver planes', 'vacantespty' ); ?></a>
 	</div>

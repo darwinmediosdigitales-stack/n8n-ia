@@ -15,6 +15,7 @@ $archive_url = vpty_core_active() ? get_post_type_archive_link( 'vacante' ) : ho
 
 			<div class="chips">
 				<span><?php esc_html_e( 'Popular:', 'vacantespty' ); ?></span>
+				<a class="chip--hot" href="<?php echo esc_url( home_url( '/reto/' ) ); ?>" data-vpty-track="reto_click" data-vpty-point="inicio">🎯 <?php esc_html_e( 'Reto diario', 'vacantespty' ); ?></a>
 				<a href="<?php echo esc_url( home_url( '/empleos-de/sin-experiencia-primer-empleo/' ) ); ?>">🚀 <?php esc_html_e( 'Sin experiencia', 'vacantespty' ); ?></a>
 				<a href="<?php echo esc_url( add_query_arg( 'modalidad', 'remoto', $archive_url ) ); ?>">🏠 <?php esc_html_e( 'Remoto', 'vacantespty' ); ?></a>
 				<a href="<?php echo esc_url( add_query_arg( 'tipo', 'PART_TIME', $archive_url ) ); ?>">🕒 <?php esc_html_e( 'Medio tiempo', 'vacantespty' ); ?></a>

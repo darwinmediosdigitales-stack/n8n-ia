@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VPTY_THEME_VERSION', '1.1.1' );
+define( 'VPTY_THEME_VERSION', '1.2.0' );
 
 add_action(
 	'after_setup_theme',
@@ -156,6 +156,7 @@ function vpty_social_links() {
 function vpty_default_menu() {
 	$items = array(
 		get_post_type_archive_link( 'vacante' ) => __( 'Empleos', 'vacantespty' ),
+		home_url( '/reto/' )                   => __( '🎯 Reto diario', 'vacantespty' ),
 		home_url( '/alertas-de-vacantes/' )    => __( 'Alertas', 'vacantespty' ),
 		home_url( '/capacitate/' )             => __( 'Capacítate', 'vacantespty' ),
 		home_url( '/curriculum-profesional/' ) => __( 'Tu CV', 'vacantespty' ),

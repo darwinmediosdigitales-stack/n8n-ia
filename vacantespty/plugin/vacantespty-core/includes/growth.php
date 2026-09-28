@@ -142,7 +142,8 @@ add_action(
 add_action(
 	'wp_footer',
 	function () {
-		if ( ! vpty_opt( 'canal_whatsapp' ) ) {
+		// The game page has its own channel buttons and must not be interrupted.
+		if ( ! vpty_opt( 'canal_whatsapp' ) || is_page( 'reto' ) ) {
 			return;
 		}
 		echo '<a class="vpty-float" href="' . esc_url( vpty_channel_url( 'flotante' ) ) . '" target="_blank" rel="noopener" data-vpty-track="whatsapp_channel_click" data-vpty-point="flotante" aria-label="' . esc_attr__( 'Síguenos: vacantes diarias en WhatsApp', 'vacantespty' ) . '">' . vpty_icon( 'whatsapp' ) . '<span class="vpty-float__label">' . esc_html__( 'Síguenos: vacantes diarias en WhatsApp', 'vacantespty' ) . '</span></a>';

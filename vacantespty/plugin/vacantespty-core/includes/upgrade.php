@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * pages are created here whenever the stored schema version is older.
  */
 
-define( 'VPTY_SCHEMA_VERSION', '2' );
+define( 'VPTY_SCHEMA_VERSION', '3' );
 
 add_action( 'admin_init', 'vpty_maybe_upgrade' );
 
@@ -66,6 +66,35 @@ function vpty_create_tables() {
 			UNIQUE KEY order_id (order_id)
 		) $charset;"
 	);
+
+	dbDelta(
+		'CREATE TABLE ' . vpty_reto_table() . " (
+			device varchar(40) NOT NULL,
+			streak int(10) unsigned NOT NULL DEFAULT 0,
+			best int(10) unsigned NOT NULL DEFAULT 0,
+			days int(10) unsigned NOT NULL DEFAULT 0,
+			last_date date DEFAULT NULL,
+			created_at datetime DEFAULT NULL,
+			updated_at datetime DEFAULT NULL,
+			PRIMARY KEY  (device),
+			KEY last_date (last_date)
+		) $charset;"
+	);
+
+	dbDelta(
+		'CREATE TABLE ' . vpty_reto_codes_table() . " (
+			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			code varchar(30) NOT NULL DEFAULT '',
+			device varchar(40) NOT NULL DEFAULT '',
+			premio varchar(10) NOT NULL DEFAULT '',
+			estado varchar(10) NOT NULL DEFAULT 'emitido',
+			created_at datetime DEFAULT NULL,
+			redeemed_at datetime DEFAULT NULL,
+			PRIMARY KEY  (id),
+			UNIQUE KEY code (code),
+			UNIQUE KEY device_premio (device,premio)
+		) $charset;"
+	);
 }
 
 function vpty_block_p( $text ) {
@@ -106,6 +135,16 @@ function vpty_create_growth_pages() {
 		vpty_block_p( '<strong>Hay cientos de personas aplicando a la misma vacante que tú.</strong> Lo que te hace destacar es lo que sabes hacer y puedes demostrar. Aquí tienes los cursos y certificaciones que más piden las empresas en Panamá, muchos gratis.' )
 		. vpty_block_shortcode( '[vpty_capacitate]' )
 	);
+
+	$reto = vpty_create_page( 'reto', __( 'Reto diario: consigue empleo jugando', 'vacantespty' ), vpty_block_shortcode( '[vpty_reto]' ) );
+	if ( $reto && ! has_excerpt( $reto ) ) {
+		wp_update_post(
+			array(
+				'ID'           => $reto,
+				'post_excerpt' => 'Reto diario de Vacantes PTY: trivia de empleo, simulador de entrevista y premios por racha. Prepárate para conseguir trabajo en Panamá en 5 minutos al día.',
+			)
+		);
+	}
 
 	vpty_create_page( 'politica-de-privacidad', __( 'Política de Privacidad', 'vacantespty' ), vpty_privacy_policy_content() );
 	vpty_create_page( 'divulgacion-de-afiliados', __( 'Divulgación de afiliados', 'vacantespty' ), vpty_affiliate_disclosure_content() );

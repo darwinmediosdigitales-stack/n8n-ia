@@ -349,7 +349,7 @@ function vpty_send_welcome_email( $lead ) {
 		. '<p>Ya estás registrado(a) para recibir vacantes de <strong>' . esc_html( $lead['categorias'] ) . '</strong>. Te escribiremos cuando salgan oportunidades de tu área.</p>'
 		. '<p><strong>¿Quieres enterarte primero?</strong> En nuestro canal de WhatsApp publicamos vacantes nuevas todos los días. Síguelo y activa la campanita 🔔:</p>'
 		. '<p style="text-align:center"><a href="' . esc_url( $channel ) . '" style="display:inline-block;background:#1fae54;color:#fff;padding:14px 26px;border-radius:999px;text-decoration:none;font-weight:bold">Seguir el canal de WhatsApp</a></p>'
-		. '<p><strong>¿Tu currículum está listo para pasar los filtros de las empresas?</strong> Te lo hacemos profesional desde B/. 4.99, con formato compatible con los sistemas que usan los reclutadores.</p>'
+		. '<p><strong>¿Tu currículum está listo para pasar los filtros de las empresas?</strong> Te lo hacemos profesional desde ' . esc_html( vpty_money( vpty_cv_min_price() ) ) . ', con formato compatible con los sistemas que usan los reclutadores.</p>'
 		. '<p style="text-align:center"><a href="' . esc_url( $cv ) . '" style="color:#0B6BF2;font-weight:bold">Ver planes de currículum →</a></p>'
 		. '<p>Recuerda: en Vacantes PTY nunca te cobraremos por aplicar a una vacante.</p>'
 		. '<p>¡Éxitos en tu búsqueda!<br>Equipo Vacantes PTY</p>'

@@ -67,6 +67,7 @@
 		<a href="<?php echo esc_url( home_url( '/politica-de-privacidad/' ) ); ?>"><?php esc_html_e( 'Política de Privacidad', 'vacantespty' ); ?></a>
 		<a href="<?php echo esc_url( home_url( '/divulgacion-de-afiliados/' ) ); ?>"><?php esc_html_e( 'Divulgación de afiliados', 'vacantespty' ); ?></a>
 		<a href="<?php echo esc_url( home_url( '/alertas-de-vacantes/' ) ); ?>"><?php esc_html_e( 'Alertas de vacantes', 'vacantespty' ); ?></a>
+		<a href="<?php echo esc_url( home_url( '/reto/' ) ); ?>"><?php esc_html_e( 'Reto diario', 'vacantespty' ); ?></a>
 		<p><?php esc_html_e( 'Algunos enlaces del sitio son de afiliado: si compras a través de ellos podemos recibir una comisión, sin costo extra para ti.', 'vacantespty' ); ?></p>
 	</div>
 	<div class="container site-footer__bottom">

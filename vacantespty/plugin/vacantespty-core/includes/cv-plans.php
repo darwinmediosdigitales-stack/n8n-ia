@@ -6,7 +6,21 @@ function vpty_orders_table() {
 	return $wpdb->prefix . 'vpty_orders';
 }
 
+/** Plan catalog; names and prices can be changed in Vacantes → Ajustes. */
 function vpty_cv_plans() {
+	$plans = vpty_cv_plans_defaults();
+	foreach ( $plans as $key => $plan ) {
+		$plans[ $key ]['name']  = vpty_opt( 'plan_' . $key . '_nombre' );
+		$plans[ $key ]['price'] = vpty_opt( 'plan_' . $key . '_precio' );
+	}
+	return $plans;
+}
+
+function vpty_cv_min_price() {
+	return min( array_map( fn( $p ) => (float) $p['price'], vpty_cv_plans() ) );
+}
+
+function vpty_cv_plans_defaults() {
 	return array(
 		'basico'      => array(
 			'name'    => __( 'Básico', 'vacantespty' ),

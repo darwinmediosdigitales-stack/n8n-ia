@@ -1,0 +1,1045 @@
+<!-- Reto diario · Vacantes PTY. Config overrides come from window.VPTY_RETO (Vacantes → Ajustes). -->
+<style>
+#vpty-reto{--ink:#15233B;--blue:#0B3C8C;--red:#C8102E;--gold:#D99A1E;--green:#1E7B45;--paper:#FFFFFF;--mist:#EEF2F8;--line:#D5DDEA;--muted:#5A6A82;font-family:"Lexend",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);max-width:520px;margin:0 auto;padding:8px 0 24px;line-height:1.5;-webkit-font-smoothing:antialiased}
+#vpty-reto *,#vpty-reto *::before,#vpty-reto *::after{box-sizing:border-box}
+#vpty-reto h2,#vpty-reto h3,#vpty-reto p{margin:0;padding:0;border:0}
+#vpty-reto button,#vpty-reto input,#vpty-reto select,#vpty-reto textarea{font-family:inherit}
+#vpty-reto button{cursor:pointer}
+#vpty-reto a{color:inherit}
+#vpty-reto .vr-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:0 4px 12px}
+#vpty-reto .vr-title{font-family:"Lexend",system-ui,sans-serif;font-weight:800;font-size:clamp(28px,7vw,36px);line-height:1.05;letter-spacing:-0.02em}
+#vpty-reto .vr-sub{font-size:15px;color:var(--muted);margin-top:6px}
+#vpty-reto .vr-stats{display:flex;gap:16px;flex-shrink:0;text-align:right}
+#vpty-reto .vr-stat b{display:block;font-family:"Lexend",system-ui,sans-serif;font-size:28px;font-weight:800;line-height:1;color:var(--blue)}
+#vpty-reto .vr-stat.tok b{color:var(--gold)}
+#vpty-reto .vr-stat span{font-size:13px;color:var(--muted)}
+#vpty-reto .vr-timer{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--mist);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:15px}
+#vpty-reto .vr-timer b{font-family:"Lexend",system-ui,sans-serif;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+#vpty-reto .vr-timer.urgent{background:#FDF1F3;color:#8A0B20}
+#vpty-reto .vr-timer.done{background:#EAF5EE;color:#1E5B34}
+/* Carnet */
+#vpty-reto .vr-card{position:relative;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:22px 20px 18px;overflow:hidden}
+#vpty-reto .vr-card::before{content:"";position:absolute;top:0;left:0;right:0;height:10px;background:linear-gradient(90deg,var(--blue) 0 50%,var(--red) 50% 100%)}
+#vpty-reto .vr-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-top:6px;gap:10px}
+#vpty-reto .vr-card-name{display:block;font-family:"Lexend",system-ui,sans-serif;font-weight:800;font-size:22px;line-height:1.15}
+#vpty-reto .vr-card-area{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+#vpty-reto .vr-card-edit{background:none;border:0;padding:0;font-size:13px;color:var(--blue);text-decoration:underline;margin-top:4px}
+#vpty-reto .vr-streak{font-size:15px;font-weight:700;color:var(--red);white-space:nowrap}
+#vpty-reto .vr-card-week{font-size:13px;color:var(--muted);margin-top:12px}
+#vpty-reto .vr-stamps{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:8px 0 8px}
+#vpty-reto .vr-stamp{aspect-ratio:1;border:2px dashed var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted)}
+#vpty-reto .vr-stamp.on{border:2px solid var(--red);color:var(--red);background:#FDF1F3;font-size:clamp(14px,4.5vw,20px);transform:rotate(-8deg)}
+#vpty-reto .vr-stamp.gold{border-color:var(--gold);color:var(--gold);background:#FDF6E6}
+#vpty-reto .vr-stamp.new{animation:vr-slam .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes vr-slam{0%{transform:scale(1.9) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(-8deg);opacity:1}}
+#vpty-reto .vr-card-foot{font-size:14px;color:var(--muted)}
+#vpty-reto .vr-level{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+#vpty-reto .vr-level-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;gap:8px}
+#vpty-reto .vr-bar{height:8px;background:var(--mist);border-radius:4px;overflow:hidden}
+#vpty-reto .vr-bar i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .6s ease}
+#vpty-reto .vr-card-sp{font-size:13px;color:var(--ink);margin-top:4px}
+#vpty-reto .vr-card-sp span,#vpty-reto .vr-wsp-tag{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:4px;white-space:nowrap}
+#vpty-reto .vr-wsp{margin-top:12px;border:2px solid var(--blue);border-radius:14px;padding:16px;background:#F4F7FD}
+#vpty-reto .vr-wsp-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+#vpty-reto .vr-wsp-h{font-family:"Lexend",system-ui,sans-serif;font-weight:800;font-size:20px;line-height:1.2;margin:6px 0 4px}
+#vpty-reto .vr-wsp p{font-size:15px}
+#vpty-reto .vr-wsp-mail{font-size:14px;color:var(--muted);margin-top:8px;word-break:break-all}
+/* Perfil */
+#vpty-reto .vr-profile{margin-top:14px;padding:14px;border-radius:12px;background:var(--mist)}
+#vpty-reto .vr-profile p{font-size:15px;font-weight:600;margin-bottom:10px}
+#vpty-reto .vr-field{display:block;width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;background:#fff;color:var(--ink);margin-bottom:8px}
+#vpty-reto .vr-field:focus{outline:3px solid var(--gold);outline-offset:1px}
+#vpty-reto .vr-row{display:flex;gap:8px}
+#vpty-reto .vr-row .vr-btn{margin-top:0}
+/* Avisos */
+#vpty-reto .vr-note{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:15px;background:var(--mist)}
+#vpty-reto .vr-note.warn{background:#FDF1F3;color:#8A0B20}
+#vpty-reto .vr-note.ok{background:#EAF5EE;color:#1E5B34}
+#vpty-reto .vr-note .vr-btn{margin-top:10px;padding:12px;font-size:15px}
+/* Secciones */
+#vpty-reto .vr-sec{margin-top:26px}
+#vpty-reto .vr-h{font-family:"Lexend",system-ui,sans-serif;font-weight:700;font-size:21px;margin-bottom:4px;padding:0 4px}
+#vpty-reto .vr-hsub{font-size:14px;color:var(--muted);padding:0 4px;margin-bottom:10px}
+#vpty-reto button:focus-visible,#vpty-reto a:focus-visible,#vpty-reto summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#vpty-reto .vr-btn{display:block;width:100%;border:0;border-radius:12px;padding:16px;font-size:17px;font-weight:700;background:var(--red);color:#fff;margin-top:6px;text-decoration:none;text-align:center}
+#vpty-reto .vr-btn[disabled]{background:#C9D1DE;color:#fff;cursor:not-allowed}
+#vpty-reto .vr-btn.alt{background:var(--blue)}
+#vpty-reto .vr-btn.gold{background:var(--gold);color:var(--ink)}
+#vpty-reto .vr-btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
+#vpty-reto .vr-btn.small{padding:12px;font-size:15px}
+#vpty-reto .vr-hint{font-size:14px;color:var(--muted);text-align:center;margin-top:8px}
+/* Trivia */
+#vpty-reto .vr-quiz{border:2px solid var(--ink);border-radius:16px;padding:18px;background:var(--paper)}
+#vpty-reto .vr-quiz-top{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);gap:8px}
+#vpty-reto .vr-pips{display:flex;gap:6px}
+#vpty-reto .vr-pip{width:22px;height:6px;border-radius:3px;background:var(--line)}
+#vpty-reto .vr-pip.ok{background:var(--green)}
+#vpty-reto .vr-pip.bad{background:var(--red)}
+#vpty-reto .vr-pip.cur{background:var(--blue)}
+#vpty-reto .vr-q{font-family:"Lexend",system-ui,sans-serif;font-size:21px;font-weight:700;line-height:1.25;margin:10px 0 12px}
+#vpty-reto .vr-opt{display:block;width:100%;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:8px;color:var(--ink);font-size:16px}
+#vpty-reto .vr-opt:hover:not([disabled]){border-color:var(--blue)}
+#vpty-reto .vr-opt[disabled]{cursor:default}
+#vpty-reto .vr-opt.ok{border-color:var(--green);background:#EAF5EE;color:#14532D;font-weight:600}
+#vpty-reto .vr-opt.bad{border-color:var(--red);background:#FDF1F3;color:#8A0B20}
+#vpty-reto .vr-expl{background:var(--mist);border-radius:12px;padding:14px;margin-top:4px;font-size:15px}
+#vpty-reto .vr-result{text-align:center}
+#vpty-reto .vr-squares{font-size:34px;letter-spacing:6px;margin:6px 0}
+#vpty-reto .vr-result-t{font-family:"Lexend",system-ui,sans-serif;font-size:22px;font-weight:800}
+#vpty-reto .vr-result p{font-size:15px;color:var(--muted)}
+/* Cofre */
+#vpty-reto .vr-chest{margin-top:14px;border:2px dashed var(--gold);border-radius:16px;padding:20px 18px;text-align:center;background:#FFFBF2}
+#vpty-reto .vr-chest-t{font-family:"Lexend",system-ui,sans-serif;font-size:20px;font-weight:800}
+#vpty-reto .vr-chest-btn{display:block;margin:10px auto 6px;background:none;border:0;font-size:72px;line-height:1;padding:6px}
+#vpty-reto .vr-chest-btn.opening{animation:vr-shake 1.1s ease-in-out}
+@keyframes vr-shake{0%,100%{transform:rotate(0) scale(1)}15%{transform:rotate(-12deg) scale(1.05)}30%{transform:rotate(10deg) scale(1.1)}45%{transform:rotate(-10deg) scale(1.15)}60%{transform:rotate(8deg) scale(1.2)}75%{transform:rotate(-6deg) scale(1.28)}90%{transform:rotate(0) scale(1.4)}}
+#vpty-reto .vr-reward{margin-top:14px;padding:18px;border-radius:14px;background:var(--ink);color:#fff}
+#vpty-reto .vr-reward.gold{background:linear-gradient(135deg,#8A5A00,#D99A1E)}
+#vpty-reto .vr-reward-t{font-family:"Lexend",system-ui,sans-serif;font-weight:800;font-size:21px;margin-bottom:6px}
+#vpty-reto .vr-reward p{font-size:15px;color:#E4E9F2}
+#vpty-reto .vr-reward p+p{margin-top:8px}
+#vpty-reto .vr-tomorrow{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.25)}
+#vpty-reto .vr-code{margin-top:14px;border:2px dashed var(--gold);border-radius:14px;padding:18px;text-align:center;background:#FFFBF2}
+#vpty-reto .vr-code-val{font-family:"Lexend",system-ui,sans-serif;font-size:28px;font-weight:800;letter-spacing:.04em;margin:8px 0}
+#vpty-reto .vr-code p{font-size:15px}
+#vpty-reto .vr-link{display:inline-block;margin-top:10px;font-weight:700;color:var(--blue)}
+/* Misiones */
+#vpty-reto .vr-task{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:8px;color:var(--ink);font-size:16px}
+#vpty-reto .vr-task:hover{border-color:var(--blue)}
+#vpty-reto .vr-box{width:26px;height:26px;flex-shrink:0;border:2px solid var(--line);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff}
+#vpty-reto .vr-task[aria-pressed="true"]{border-color:var(--blue);background:#F4F7FD}
+#vpty-reto .vr-task[aria-pressed="true"] .vr-box{background:var(--blue);border-color:var(--blue)}
+#vpty-reto .vr-task-txt{flex:1}
+#vpty-reto .vr-task-pts{font-size:14px;font-weight:700;color:var(--blue);white-space:nowrap}
+#vpty-reto .vr-counter{display:flex;align-items:center;gap:12px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+#vpty-reto .vr-counter-txt{flex:1;font-size:16px}
+#vpty-reto .vr-counter-txt small{display:block;font-size:13px;color:var(--muted)}
+#vpty-reto .vr-step{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font-size:22px;font-weight:700;line-height:1}
+#vpty-reto .vr-step[disabled]{border-color:var(--line);color:var(--line);cursor:default}
+#vpty-reto .vr-count{font-family:"Lexend",system-ui,sans-serif;font-size:24px;font-weight:800;min-width:28px;text-align:center;font-variant-numeric:tabular-nums}
+#vpty-reto .vr-week-stat{font-size:14px;color:var(--muted);padding:0 4px}
+/* Fichas y patrocinador */
+#vpty-reto .vr-earn{display:flex;align-items:center;gap:12px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:8px}
+#vpty-reto .vr-earn-txt{flex:1;font-size:15px}
+#vpty-reto .vr-earn-txt b{display:block;font-size:16px}
+#vpty-reto .vr-earn .vr-btn{width:auto;margin:0;padding:10px 14px;font-size:14px;white-space:nowrap}
+#vpty-reto .vr-ad{border:1.5px solid var(--line);border-radius:14px;padding:16px;background:var(--paper);margin-bottom:8px}
+#vpty-reto .vr-ad-tag{font-size:12px;color:var(--muted);margin-bottom:8px}
+#vpty-reto .vr-ad-row{display:flex;gap:12px;align-items:center}
+#vpty-reto .vr-ad-logo{width:48px;height:48px;border-radius:10px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Lexend",system-ui,sans-serif;font-weight:800;font-size:20px;flex-shrink:0;overflow:hidden}
+#vpty-reto .vr-ad-logo img{width:100%;height:100%;object-fit:cover}
+#vpty-reto .vr-ad-name{font-weight:700;font-size:16px}
+#vpty-reto .vr-ad-text{font-size:15px;color:var(--muted)}
+#vpty-reto .vr-ad-bar{height:6px;background:var(--mist);border-radius:3px;overflow:hidden;margin-top:12px}
+#vpty-reto .vr-ad-bar i{display:block;height:100%;width:0;background:var(--gold)}
+/* Simulador */
+#vpty-reto .vr-sim{border:2px solid var(--ink);border-radius:16px;padding:18px;background:var(--paper)}
+#vpty-reto .vr-sim p{font-size:15px}
+#vpty-reto .vr-sim-clock{font-family:"Lexend",system-ui,sans-serif;font-size:40px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums;text-align:center;margin:8px 0}
+#vpty-reto .vr-sim-ans{background:var(--mist);border-radius:12px;padding:14px;margin-top:10px}
+#vpty-reto .vr-sim-ans p+p{margin-top:8px}
+#vpty-reto .vr-rec{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:var(--red);font-weight:600}
+#vpty-reto .vr-rec::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--red);animation:vr-blink 1s infinite}
+@keyframes vr-blink{50%{opacity:.2}}
+#vpty-reto audio{width:100%;margin-top:10px}
+#vpty-reto .vr-coll{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0 6px}
+#vpty-reto .vr-chip{aspect-ratio:1;border-radius:8px;background:var(--mist);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px}
+#vpty-reto .vr-chip.seen{background:#F4F7FD;border-color:var(--blue)}
+#vpty-reto .vr-chip.master{background:#FDF6E6;border-color:var(--gold)}
+#vpty-reto .vr-check{display:flex;align-items:center;gap:8px;font-size:15px;margin:10px 0 4px}
+#vpty-reto .vr-check input{width:20px;height:20px;accent-color:var(--blue)}
+#vpty-reto .vr-rate{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+#vpty-reto .vr-rate button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:12px 6px;font-size:14px;color:var(--ink)}
+#vpty-reto .vr-rate button span{display:block;font-size:24px}
+#vpty-reto .vr-rate button:hover{border-color:var(--blue)}
+/* Insignias y niveles */
+#vpty-reto .vr-badges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#vpty-reto .vr-badge{border:1.5px solid var(--gold);background:#FFFBF2;border-radius:12px;padding:12px 8px;text-align:center;font-size:13px;color:var(--muted)}
+#vpty-reto .vr-badge span{display:block;font-size:28px;line-height:1.2}
+#vpty-reto .vr-badge b{display:block;color:var(--ink);font-size:14px}
+#vpty-reto .vr-badge.off{border-color:var(--line);background:var(--paper)}
+#vpty-reto .vr-badge.off span{filter:grayscale(1);opacity:.35}
+#vpty-reto .vr-levels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#vpty-reto .vr-lv{border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:14px;color:var(--muted)}
+#vpty-reto .vr-lv b{display:block;color:var(--ink);font-size:15px}
+#vpty-reto .vr-lv.cur{border-color:var(--blue);background:#F4F7FD}
+/* Respaldo */
+#vpty-reto .vr-backup{border:1.5px solid var(--line);border-radius:14px;padding:16px;background:var(--paper)}
+#vpty-reto .vr-backup p{font-size:15px}
+#vpty-reto .vr-backup details{margin-top:12px}
+#vpty-reto .vr-backup summary{cursor:pointer;font-weight:700;color:var(--blue);font-size:15px}
+#vpty-reto .vr-backup textarea{display:block;width:100%;min-height:80px;margin-top:10px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;resize:vertical}
+#vpty-reto .vr-backup .vr-row{margin-top:10px;flex-wrap:wrap}
+#vpty-reto .vr-backup .vr-row .vr-btn{flex:1;min-width:180px}
+#vpty-reto .vr-toast,.vr-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#15233B;color:#fff;padding:12px 18px;border-radius:12px;font-family:"Lexend",system-ui,sans-serif;font-size:15px;font-weight:600;z-index:99999;box-shadow:0 6px 20px rgba(21,35,59,.3);max-width:90vw;text-align:center}
+.vr-cf{position:fixed;top:-14px;width:9px;height:14px;z-index:99998;border-radius:2px;pointer-events:none;animation:vr-fall 1.6s cubic-bezier(.3,.6,.6,1) forwards}
+@keyframes vr-fall{to{transform:translateY(105vh) rotate(620deg);opacity:.7}}
+@media (prefers-reduced-motion:reduce){#vpty-reto .vr-stamp.new,#vpty-reto .vr-chest-btn.opening,#vpty-reto .vr-rec::before{animation:none}#vpty-reto .vr-bar i{transition:none}}
+</style>
+<div id="vpty-reto">
+  <div class="vr-top">
+    <div>
+      <h2 class="vr-title">Reto diario</h2>
+      <p class="vr-sub">Un minuto al día para llegar mejor preparado a tu próximo empleo.</p>
+    </div>
+    <div class="vr-stats">
+      <div class="vr-stat"><b id="vr-points">0</b><span>puntos</span></div>
+      <div class="vr-stat tok"><b id="vr-tokens">0</b><span>fichas</span></div>
+    </div>
+  </div>
+  <div class="vr-timer" id="vr-timer"></div>
+  <div class="vr-card">
+    <div class="vr-card-head">
+      <div id="vr-id"></div>
+      <span class="vr-streak" id="vr-streak">🔥 0 días</span>
+    </div>
+    <p class="vr-card-week" id="vr-week">Semana 1</p>
+    <p class="vr-card-sp" id="vr-cardsp" hidden></p>
+    <div class="vr-stamps" id="vr-stamps" aria-label="Sellos de la semana"></div>
+    <p class="vr-card-foot" id="vr-foot"></p>
+    <div id="vr-profile"></div>
+    <div class="vr-level">
+      <div class="vr-level-row"><span>Nivel: <b id="vr-level">Buscador</b></span><span id="vr-next"></span></div>
+      <div class="vr-bar"><i id="vr-bar" style="width:0%"></i></div>
+    </div>
+  </div>
+  <div id="vr-notice"></div>
+  <div id="vr-weeksp"></div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Trivia del día</h3>
+    <p class="vr-hsub" id="vr-quizsub">3 preguntas, las mismas para todos hoy. Respóndelas para sellar tu día.</p>
+    <div class="vr-quiz" id="vr-quiz"></div>
+    <button class="vr-btn" id="vr-complete" disabled>Sellar mi día</button>
+    <p class="vr-hint" id="vr-hint"></p>
+    <div id="vr-chest"></div>
+    <div id="vr-prize"></div>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Misiones extra</h3>
+    <p class="vr-hsub">Suman puntos. Registra lo que hiciste de verdad en tu búsqueda.</p>
+    <div id="vr-missions"></div>
+    <p class="vr-week-stat" id="vr-weekapps"></p>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Gana fichas extra</h3>
+    <p class="vr-hsub">Úsalas en el simulador de entrevista o para salvar tu racha.</p>
+    <div id="vr-ad"></div>
+    <div id="vr-share"></div>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Simulador de entrevista</h3>
+    <p class="vr-hsub">Responde en voz alta, escúchate y domina grupos de 14 preguntas. Cuesta 1 ficha.</p>
+    <div class="vr-sim" id="vr-sim"></div>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Tus insignias</h3>
+    <p class="vr-hsub" id="vr-badges-sub"></p>
+    <div class="vr-badges" id="vr-badges"></div>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Niveles</h3>
+    <div class="vr-levels" id="vr-levels"></div>
+  </div>
+  <div class="vr-sec">
+    <h3 class="vr-h">Tu progreso</h3>
+    <div id="vr-backup"></div>
+  </div>
+  <div class="vr-sec">
+    <a class="vr-btn alt" href="https://whatsapp.com/channel/0029VbCum9c2ER6cMRrrhX3h" target="_blank" rel="noopener">Ver las vacantes de hoy en WhatsApp</a>
+  </div>
+</div>
+<script>
+(function(){
+  /* ================= CONFIGURACIÓN (edita solo esta parte) ================= */
+  var CONFIG={
+    channel:"https://whatsapp.com/channel/0029VbCum9c2ER6cMRrrhX3h",
+    instagram:"https://www.instagram.com/vacantes_pty_/",
+    /* Patrocinador: cambia active a true y completa los datos cuando vendas el espacio */
+    sponsor:{active:false,name:"Nombre de la marca",text:"Mensaje corto del patrocinador para personas que buscan empleo.",cta:"Conocer más",url:"https://",logo:"",initial:"M"},
+    /* Mensaje propio que se muestra cuando no hay patrocinador */
+    house:{name:"Planes de CV · Vacantes PTY",text:"Tu currículum hecho por profesionales desde $2.99. Pago fácil con Yappy.",cta:"Pedir mi CV",url:"https://www.instagram.com/vacantes_pty_/",initial:"V"},
+    adSeconds:15,
+    simCost:1,
+    rescueCost:2,
+    welcomeTokens:1,
+    weekTokens:2,
+    sealPoints:10,
+    quizPoints:10,
+    perfectBonus:10,
+    appPoints:10,
+    appMaxPerDay:3,
+    /* Premios por racha */
+    prize7:"50% de descuento en el plan CV Impacto",
+    prize14:"un CV Básico gratis",
+    /* Reto de la semana presentado por… Cambia active a true y completa email para activarlo */
+    weekSponsor:{
+      active:false,
+      name:"Grupo ASC",
+      headline:"Grupo ASC está contratando técnicos",
+      text:"Mantenimiento de ascensores, escaleras eléctricas y montacargas en Panamá.",
+      cta:"Postularme por correo",
+      email:"",
+      subject:"Postulación – Técnico de mantenimiento (Reto Vacantes PTY)",
+      body:"Hola, equipo de Grupo ASC:\n\nMe interesa la vacante de técnico de mantenimiento que vi en el Reto diario de Vacantes PTY.\n\nNombre:\nTeléfono:\nExperiencia en el área:\n\nAdjunto mi CV.\n\nGracias.",
+      quiz:[
+        {q:"¿Qué es lo primero en cualquier trabajo de mantenimiento?",o:["La seguridad: cortar la energía y señalizar el área","Terminar lo más rápido posible","Pedir herramientas nuevas"],a:0,e:"Antes de intervenir un equipo se aísla la energía y se señaliza el área para proteger a todos."},
+        {q:"¿Para qué sirve el mantenimiento preventivo?",o:["Para evitar fallas antes de que ocurran","Para reparar solo cuando algo se daña","Para cambiar el color del equipo"],a:0,e:"Revisar a tiempo evita paradas, riesgos y reparaciones más costosas."},
+        {q:"Una persona queda atrapada en un ascensor. ¿Qué es lo primero?",o:["Tranquilizarla, mantener comunicación y seguir el protocolo de rescate","Forzar las puertas de inmediato","Esperar a que se arregle solo"],a:0,e:"La calma y el protocolo correcto protegen a la persona atrapada y al técnico."},
+        {q:"¿Qué debe hacer un técnico al terminar cada visita?",o:["Registrar el trabajo realizado y lo que queda pendiente","Irse sin avisar","Borrar sus notas"],a:0,e:"El registro permite dar seguimiento y demuestra el trabajo hecho."}
+      ],
+      sim:[
+        {q:"¿Qué experiencia tienes con sistemas eléctricos o mecánicos?",why:"Verifican tu base técnica.",how:"Menciona equipos concretos con los que trabajaste, qué hacías y durante cuánto tiempo."},
+        {q:"Tienes dos llamadas de emergencia al mismo tiempo. ¿Cómo priorizas?",why:"Evalúan criterio y seguridad.",how:"Primero donde hay personas en riesgo o atrapadas, avisar a la central y pedir apoyo."},
+        {q:"El administrador de un edificio te presiona para dejar un equipo funcionando, pero no estás seguro de que sea seguro. ¿Qué haces?",why:"Evalúan si priorizas la seguridad.",how:"Explicar con respeto el riesgo, dejar el equipo fuera de servicio y reportarlo a tu supervisor."},
+        {q:"¿Cómo registras el trabajo que hiciste en una visita?",why:"Evalúan orden y responsabilidad.",how:"Describe tu reporte: equipo, falla, acciones, repuestos usados y pendientes."}
+      ]
+    },
+    areas:["Atención al cliente","Ventas","Administrativo","Logística y bodega","Salud","Hotelería y turismo","Tecnología","Construcción","Trabajo remoto","Otra área"]
+  };
+  /* ======================================================================== */
+  var SRV=window.VPTY_RETO||{};for(var ck in SRV){if(SRV.hasOwnProperty(ck))CONFIG[ck]=SRV[ck];}
+  var KEY="vpty_reto_v1"; /* misma clave que la v2: quien ya juega conserva su racha */
+  var MISSIONS=[
+    {id:"ver",txt:"Revisé las vacantes de hoy en el canal",pts:10,link:true},
+    {id:"cv",txt:"Mejoré algo de mi CV o de mi perfil",pts:15}
+  ];
+  var LEVELS=[
+    {min:0,name:"Buscador",desc:"Empiezas tu búsqueda"},
+    {min:150,name:"Aplicador",desc:"Aplicas con constancia"},
+    {min:400,name:"Candidato destacado",desc:"Tu perfil sobresale"},
+    {min:900,name:"Listo para contratar",desc:"Preparado para la oferta"},
+    {min:2000,name:"Profesional en ascenso",desc:"Tu constancia se nota"},
+    {min:4000,name:"Referente",desc:"Otros aprenden de ti"},
+    {min:7000,name:"Leyenda PTY",desc:"Lo máximo del reto"}
+  ];
+  var TIPS=[
+    "Aplicar temprano te pone entre los primeros currículums que revisan.",
+    "Usa en tu CV el nombre exacto del puesto al que aplicas.",
+    "Cambia «responsable de» por un logro con número: «atendí 40 clientes al día».",
+    "Usa un correo profesional con tu nombre y apellido.",
+    "Lleva una lista de las empresas a las que aplicaste y la fecha.",
+    "Prepara tu respuesta a «Háblame de ti» en menos de un minuto.",
+    "Llega 10 minutos antes a la entrevista, no 30.",
+    "Ten escaneados tu cédula, tus certificados y tus referencias.",
+    "Si pasan 5 días hábiles sin respuesta, un mensaje corto de seguimiento está bien.",
+    "Una foto de perfil clara y con fondo simple mejora tu primera impresión.",
+    "Pide permiso a tus referencias antes de ponerlas en el CV.",
+    "Investiga la empresa antes de la entrevista y menciona algo concreto de ella."
+  ];
+  /* Banco de trivia: a = índice de la respuesta correcta (las opciones se mezclan solas) */
+  var QUIZ=[
+    {t:"CV",q:"¿Cuál es la mejor forma de describir tu experiencia en el CV?",o:["Responsable de atender clientes","Atendí un promedio de 40 clientes al día","Hice de todo en la empresa"],a:1,e:"Un logro con número muestra resultados. Una lista de funciones solo dice qué te tocaba hacer."},
+    {t:"CV",q:"¿Qué correo conviene poner en tu CV?",o:["princesita_2000@correo.com","maria.gonzalez@correo.com","El correo de tu trabajo actual"],a:1,e:"Un correo con tu nombre y apellido se ve profesional y es fácil de recordar."},
+    {t:"CV",q:"Si tienes pocos años de experiencia, ¿qué largo se recomienda para tu CV?",o:["Una página","Tres páginas","Mientras más largo, mejor"],a:0,e:"Quien revisa CVs dedica pocos segundos a cada uno. Una página clara se lee completa."},
+    {t:"CV",q:"Aplicas a puestos distintos. ¿Qué haces con tu CV?",o:["Envío siempre el mismo","Lo ajusto al puesto de cada anuncio","Solo envío mi número de teléfono"],a:1,e:"Usar las palabras del anuncio en tu CV muestra que encajas con lo que buscan."},
+    {t:"CV",q:"Si el anuncio pide foto en el CV, ¿cuál usas?",o:["Una selfie en la playa","Una foto clara, de frente y con fondo simple","Una foto grupal recortada"],a:1,e:"La foto es tu primera impresión: clara, de frente y sin distracciones."},
+    {t:"CV",q:"¿A quién pones como referencia?",o:["A personas que no saben que las pusiste","A personas que te autorizaron y conocen tu trabajo","A tus familiares"],a:1,e:"Una referencia avisada responde mejor y habla con seguridad de tu trabajo."},
+    {t:"CV",q:"¿Qué conviene revisar antes de enviar tu CV?",o:["La ortografía y tus datos de contacto","El color del papel","Nada, se envía tal cual"],a:0,e:"Un error de ortografía o un número equivocado puede costarte la llamada."},
+    {t:"Entrevista",q:"¿Con cuánta anticipación llegas a una entrevista presencial?",o:["Justo a la hora","Unos 10 minutos antes","Una hora antes"],a:1,e:"Diez minutos te dan margen sin incomodar a quien te va a recibir."},
+    {t:"Entrevista",q:"Te preguntan: «¿Tienes alguna pregunta para nosotros?». ¿Qué respondes?",o:["No, todo está claro","¿Cuántos días de vacaciones tengo?","¿Qué esperan de la persona en los primeros tres meses?"],a:2,e:"Una buena pregunta muestra interés en hacer bien el trabajo."},
+    {t:"Entrevista",q:"«Háblame de ti». ¿Qué es lo más recomendable?",o:["Contar tu historia desde la escuela","Resumir en un minuto tu perfil y por qué encajas en el puesto","Decir «todo está en mi CV»"],a:1,e:"Buscan un resumen breve y relacionado con el puesto, no tu historia completa."},
+    {t:"Entrevista",q:"¿Cómo hablas de un trabajo anterior del que saliste mal?",o:["Explico todo lo que hizo mal mi jefe","Me enfoco en lo que busco ahora, sin criticar","Evito la pregunta"],a:1,e:"Criticar a un empleador anterior hace pensar que podrías hacer lo mismo después."},
+    {t:"Entrevista",q:"¿Qué orden sirve para contar un logro en una entrevista?",o:["Situación, tarea, acción y resultado","Solo decir que eres responsable","Contar lo que hizo tu equipo"],a:0,e:"Ese orden hace tu historia fácil de seguir y deja claro qué hiciste tú."},
+    {t:"Entrevista",q:"Tienes entrevista por videollamada. ¿Qué revisas primero?",o:["Un fondo divertido","Internet, cámara, audio y un lugar tranquilo","Música de fondo"],a:1,e:"Los problemas técnicos cortan la conversación. Pruébalos antes."},
+    {t:"Entrevista",q:"Te preguntan tu expectativa salarial. ¿Qué es mejor?",o:["Decir «lo que ustedes quieran»","Dar un rango realista que investigaste y mostrar apertura","Pedir el doble para negociar"],a:1,e:"Un rango investigado muestra que conoces el mercado y deja espacio para conversar."},
+    {t:"Entrevista",q:"¿Qué haces con el celular durante la entrevista?",o:["Lo dejo en silencio y guardado","Lo pongo en la mesa por si acaso","Contesto si es importante"],a:0,e:"Toda tu atención debe estar en la conversación."},
+    {t:"Entrevista",q:"No sabes el código de vestimenta de la empresa. ¿Qué te pones?",o:["Algo un poco más formal que lo que usan a diario allí","Ropa de playa","Lo primero que encuentre"],a:0,e:"Ir un poco más formal nunca juega en contra."},
+    {t:"Búsqueda",q:"¿Cuándo conviene aplicar a una vacante recién publicada?",o:["Lo antes posible","Una semana después","El último día"],a:0,e:"Muchas empresas revisan los primeros CVs que llegan."},
+    {t:"Búsqueda",q:"Pasaron 5 días hábiles después de tu entrevista sin respuesta. ¿Qué haces?",o:["Espero sin hacer nada","Envío un mensaje corto y amable de seguimiento","Llamo todos los días"],a:1,e:"Un seguimiento breve muestra interés sin presionar."},
+    {t:"Búsqueda",q:"Una «vacante» te pide pagar para asegurarte el puesto. ¿Qué significa?",o:["Es normal","Es una señal de posible estafa","Es un beneficio"],a:1,e:"Una empresa seria no te cobra por contratarte."},
+    {t:"Búsqueda",q:"Te ofrecen trabajo por mensaje y te piden tu clave bancaria para «pagarte». ¿Qué haces?",o:["La envío","Nunca comparto claves: es una estafa","La envío si parece una empresa grande"],a:1,e:"Ninguna empresa necesita tu clave para pagarte. Nunca la compartas."},
+    {t:"Búsqueda",q:"¿Para qué sirve llevar una lista de tus aplicaciones?",o:["Para nada","Para dar seguimiento y aprender qué funciona","Para enviarla a las empresas"],a:1,e:"Saber dónde aplicaste y cuándo te ayuda a dar seguimiento a tiempo."},
+    {t:"Búsqueda",q:"¿Qué documentos conviene tener escaneados y listos?",o:["Cédula, certificados y referencias","La libreta de la primaria","Ninguno"],a:0,e:"Tenerlos listos te permite aplicar en minutos cuando sale una vacante."},
+    {t:"Búsqueda",q:"Te rechazan después de una entrevista. ¿Qué es lo más útil?",o:["Dejar de aplicar","Pedir comentarios con amabilidad y seguir aplicando","Responder molesto"],a:1,e:"Cada entrevista es práctica. Los comentarios te ayudan a mejorar la próxima."},
+    {t:"Comunicación",q:"¿Cómo nombras el archivo de tu CV?",o:["cv final final2.pdf","Nombre-Apellido-CV.pdf","documento1.docx"],a:1,e:"Un nombre claro ayuda a que encuentren tu CV entre muchos."},
+    {t:"Comunicación",q:"Si no te piden otro formato, ¿cómo envías tu CV?",o:["En PDF","Como foto del CV impreso","Como captura de pantalla"],a:0,e:"El PDF mantiene tu diseño igual en cualquier dispositivo."},
+    {t:"Comunicación",q:"Envías tu CV por correo. ¿Qué pones en el asunto?",o:["Nada","El puesto al que aplicas y tu nombre","«Hola»"],a:1,e:"Un asunto claro ayuda a que tu correo llegue a la persona correcta."},
+    {t:"Comunicación",q:"Te escriben por WhatsApp para una entrevista. ¿Cómo respondes?",o:["«ok»","Saludo, confirmo día y hora y agradezco","Con audios largos"],a:1,e:"Una respuesta clara y cortés ya es parte de tu primera impresión."},
+    {t:"Derechos",q:"En Panamá, ¿en cuántas partes se paga el décimo tercer mes?",o:["En una sola","En dos","En tres"],a:2,e:"Se paga en tres partes a lo largo del año."},
+    {t:"Habilidades",q:"¿Cuál de estas es una habilidad blanda?",o:["Manejo de Excel","Comunicación","Manejo de montacargas"],a:1,e:"Las habilidades blandas son formas de relacionarte y trabajar con otros."},
+    {t:"Habilidades",q:"¿Qué ayuda más a que te encuentren en LinkedIn?",o:["Un perfil vacío","Un titular claro con el puesto que buscas y una foto profesional","Solo tu nombre"],a:1,e:"El titular es lo primero que ven los reclutadores cuando buscan candidatos."},
+    {t:"CV",q:"¿Qué va primero en la sección de experiencia de tu CV?",o:["Tu trabajo más reciente", "Tu trabajo más antiguo", "Tus pasatiempos"],a:0,e:"Empezar por lo más reciente muestra primero lo que hoy sabes hacer."},
+    {t:"CV",q:"¿Qué perfil profesional es más efectivo?",o:["Busco crecer en una empresa sólida", "Agente de atención al cliente con 3 años resolviendo reclamos por teléfono y chat", "Soy una persona muy trabajadora"],a:1,e:"Un perfil concreto dice qué haces y con qué experiencia. Las frases generales las usa todo el mundo."},
+    {t:"CV",q:"No tienes experiencia laboral. ¿Qué pones en tu CV?",o:["Nada, lo dejo corto", "Voluntariados, prácticas, proyectos y cursos", "Un trabajo inventado"],a:1,e:"Todo eso demuestra habilidades reales. Un dato inventado se descubre fácil y te cierra la puerta."},
+    {t:"CV",q:"¿Cuántos tipos de letra conviene usar en tu CV?",o:["Uno o dos, fáciles de leer", "Cinco, para que se vea creativo", "Letra cursiva decorada"],a:0,e:"Un CV fácil de leer se revisa completo. El diseño recargado distrae."},
+    {t:"CV",q:"Tienes varios meses sin trabajar. ¿Qué haces en tu CV?",o:["Cambio las fechas para ocultarlo", "Lo explico con honestidad si me preguntan y menciono qué hice o aprendí", "Invento un empleo"],a:1,e:"Los espacios sin trabajo son comunes. Lo que preocupa es descubrir que alguien mintió."},
+    {t:"CV",q:"¿Qué palabras conviene usar al describir tus tareas?",o:["Verbos de acción: organicé, atendí, vendí", "Frases como «me tocaba hacer»", "Palabras en inglés sin necesidad"],a:0,e:"Los verbos de acción muestran lo que tú hiciste y suenan más seguros."},
+    {t:"CV",q:"¿Pones tu salario anterior en el CV?",o:["Sí, siempre", "No, eso se conversa si te lo preguntan", "Solo si fue alto"],a:1,e:"El salario se habla en la entrevista, no en el CV."},
+    {t:"CV",q:"¿Qué cursos incluyes en tu CV?",o:["Todos desde la primaria", "Los que tienen relación con el puesto", "Ninguno"],a:1,e:"Los cursos relacionados refuerzan tu perfil. Los demás ocupan espacio."},
+    {t:"CV",q:"Entiendes inglés pero te cuesta hablarlo. ¿Qué nivel escribes?",o:["Avanzado", "Tu nivel real, por ejemplo básico o intermedio", "No lo menciono"],a:1,e:"Muchas empresas prueban el idioma en la entrevista. Ser honesto evita un mal momento."},
+    {t:"CV",q:"¿Cada cuánto conviene actualizar tu CV?",o:["Cada vez que aprendes algo nuevo o cambias de trabajo", "Cada diez años", "Nunca"],a:0,e:"Un CV al día te permite aplicar rápido cuando aparece una buena vacante."},
+    {t:"Entrevista",q:"¿Qué llevas a una entrevista presencial?",o:["Copias de tu CV, tu cédula y algo para anotar", "Solo el celular", "Todos tus certificados escolares"],a:0,e:"Ir preparado muestra organización y te evita contratiempos."},
+    {t:"Entrevista",q:"¿Cómo saludas al entrevistador?",o:["Con un saludo cordial, mirándolo a los ojos y con una sonrisa", "Sin mirarlo", "Tuteándolo y con apodos"],a:0,e:"El saludo es tu primera impresión: cordial y profesional."},
+    {t:"Entrevista",q:"Te preguntan algo que no sabes. ¿Qué haces?",o:["Invento una respuesta", "Admito que no lo sé y explico cómo lo averiguaría", "Cambio de tema"],a:1,e:"Reconocer lo que no sabes y mostrar cómo lo resolverías da más confianza que inventar."},
+    {t:"Entrevista",q:"¿Cuánto debería durar una respuesta típica en una entrevista?",o:["Entre 1 y 2 minutos", "Unos 10 minutos", "Una sola palabra"],a:0,e:"Respuestas breves y con un ejemplo mantienen la atención del entrevistador."},
+    {t:"Entrevista",q:"¿Qué haces después de una entrevista?",o:["Envío un mensaje corto de agradecimiento", "Nada", "Pregunto cada hora si quedé"],a:0,e:"Un agradecimiento breve te deja en la memoria del entrevistador."},
+    {t:"Entrevista",q:"Te piden tu mayor debilidad. ¿Cuál es la respuesta más débil?",o:["«Soy muy perfeccionista», sin ningún ejemplo", "Una debilidad real y cómo la estás mejorando", "Una habilidad que estás reforzando con un curso"],a:0,e:"Esa frase suena ensayada. Una debilidad real con un plan de mejora convence más."},
+    {t:"Entrevista",q:"¿Qué postura transmite seguridad?",o:["Espalda recta y manos visibles", "Brazos cruzados todo el tiempo", "Mirar al piso"],a:0,e:"Tu cuerpo también comunica. Una postura abierta transmite confianza."},
+    {t:"Entrevista",q:"En una entrevista grupal, ¿qué te conviene hacer?",o:["Participar, escuchar y reconocer las ideas de otros", "Hablar más que todos", "No decir nada"],a:0,e:"Evalúan cómo trabajas con otros, no quién habla más."},
+    {t:"Entrevista",q:"Te preguntan por un espacio en tu historial laboral. ¿Qué haces?",o:["Explico con calma qué hice en ese tiempo", "Me pongo a la defensiva", "Digo que no es asunto suyo"],a:0,e:"Una explicación tranquila y honesta cierra el tema rápido."},
+    {t:"Entrevista",q:"¿Cómo investigas una empresa antes de la entrevista?",o:["Reviso su página web, sus redes y noticias recientes", "No hace falta", "Solo le pregunto a un amigo"],a:0,e:"Mencionar algo concreto de la empresa demuestra interés real."},
+    {t:"Entrevista",q:"Por un imprevisto vas a llegar tarde. ¿Qué haces?",o:["Aviso antes de la hora y propongo una solución", "Llego sin avisar", "No voy"],a:0,e:"Avisar a tiempo muestra responsabilidad, incluso cuando algo sale mal."},
+    {t:"Entrevista",q:"¿Es buena idea preguntar por el salario al inicio de la entrevista?",o:["No, mejor esperar a que salga el tema o al final", "Sí, es lo primero", "Sí, y exigir una cifra"],a:0,e:"Primero demuestra tu valor. Luego se conversa el salario."},
+    {t:"Búsqueda",q:"¿Qué funciona mejor?",o:["Aplicar a 10 vacantes con el CV adaptado", "Aplicar a 50 vacantes con el mismo CV", "No aplicar"],a:0,e:"Un CV adaptado tiene más probabilidades de pasar el primer filtro."},
+    {t:"Búsqueda",q:"Cumples cerca del 70% de los requisitos de una vacante. ¿Qué haces?",o:["Aplico y destaco lo que sí cumplo", "No aplico", "Miento sobre lo que me falta"],a:0,e:"Pocas personas cumplen el 100%. Aplica y muestra tus fortalezas."},
+    {t:"Búsqueda",q:"¿Dónde es más seguro buscar vacantes?",o:["En páginas oficiales de empresas y canales confiables", "En mensajes de desconocidos", "En anuncios que piden un pago"],a:0,e:"Las fuentes confiables reducen el riesgo de caer en estafas."},
+    {t:"Búsqueda",q:"Una oferta promete $3,000 al mes desde casa, sin experiencia. ¿Qué haces?",o:["Desconfío y verifico la empresa", "Pago la inscripción", "Envío mis datos bancarios"],a:0,e:"Cuando una oferta parece demasiado buena, verifica antes de dar cualquier dato."},
+    {t:"Búsqueda",q:"¿Qué es el networking?",o:["Crear relaciones profesionales que pueden abrir oportunidades", "Una red de wifi", "Un tipo de contrato"],a:0,e:"Muchas oportunidades llegan por personas que conocen tu trabajo."},
+    {t:"Búsqueda",q:"¿Conviene contarle a tu círculo que buscas empleo?",o:["Sí, muchas vacantes llegan por recomendación", "No, es vergonzoso", "Solo a mi familia"],a:0,e:"Mientras más personas sepan qué buscas, más oportunidades pueden llegarte."},
+    {t:"Búsqueda",q:"Te llaman de un número desconocido para una entrevista. ¿Qué verificas?",o:["El nombre de la empresa, la dirección y que la vacante exista", "Nada", "Que me paguen el pasaje por adelantado"],a:0,e:"Verificar la empresa te protege de ofertas falsas."},
+    {t:"Búsqueda",q:"¿Qué ayuda a no desanimarte en la búsqueda de empleo?",o:["Metas diarias pequeñas, como aplicar a 3 vacantes", "Aplicar solo cuando tengo ganas", "Revisar vacantes una vez al mes"],a:0,e:"Las metas pequeñas y constantes mantienen el avance aunque todavía no haya respuesta."},
+    {t:"Búsqueda",q:"Una empresa te pide trabajar 5 días gratis como prueba. ¿Qué opinas?",o:["Una prueba breve es normal; varios días de trabajo gratis son una señal de alerta", "Siempre es normal", "Hay que pagar por ella"],a:0,e:"Una prueba corta es común. Trabajar varios días sin pago no lo es."},
+    {t:"Búsqueda",q:"¿Qué es una feria de empleo?",o:["Un evento donde varias empresas reciben CVs y hacen entrevistas", "Una venta de ropa", "Un curso pagado"],a:0,e:"Es una oportunidad de hablar cara a cara con varias empresas el mismo día."},
+    {t:"Búsqueda",q:"¿Qué llevas a una feria de empleo?",o:["Varias copias de mi CV y una presentación corta de mí", "Nada", "Un solo CV"],a:0,e:"Vas a hablar con varias empresas. Ve preparado para todas."},
+    {t:"Búsqueda",q:"Te piden foto de tu cédula por WhatsApp antes de cualquier entrevista. ¿Qué haces?",o:["Verifico primero que la empresa y la vacante sean reales", "La envío de inmediato", "La publico en redes"],a:0,e:"Tu cédula puede usarse para suplantar tu identidad. Compártela solo con empresas verificadas."},
+    {t:"Búsqueda",q:"¿Qué correo es más confiable para una oferta de trabajo?",o:["rrhh@nombredelaempresa.com", "empleos.urgentes.2026@gmail.com", "Da igual"],a:0,e:"Las empresas serias suelen escribir desde su propio dominio."},
+    {t:"Búsqueda",q:"Te ofrecen el trabajo sin entrevista, pero debes comprar un kit. ¿Qué es?",o:["Una señal de posible estafa o venta piramidal", "Una oportunidad única", "Un proceso normal"],a:0,e:"Un empleo no debería costarte dinero para empezar."},
+    {t:"Búsqueda",q:"Te ofrecen trabajo en otro país, todo pagado y con prisa para viajar. ¿Qué haces?",o:["Verifico la empresa y consulto antes de decidir", "Viajo cuanto antes", "Entrego mi pasaporte"],a:0,e:"La prisa y las ofertas demasiado generosas son señales de riesgo. Verifica siempre."},
+    {t:"Búsqueda",q:"Te piden un código que llegó a tu celular para «confirmar la entrevista». ¿Qué haces?",o:["No lo comparto: puede servir para robar mi cuenta", "Lo envío", "Lo publico"],a:0,e:"Esos códigos protegen tus cuentas. Nadie legítimo te los pide."},
+    {t:"Comunicación",q:"¿Qué foto de perfil conviene en WhatsApp si buscas empleo?",o:["Una clara y apropiada", "Una con memes", "No importa"],a:0,e:"Los reclutadores ven tu foto cuando te escriben."},
+    {t:"Comunicación",q:"¿Cómo le escribes a un reclutador?",o:["Con saludo, mensaje breve y buena ortografía", "Con abreviaturas como «q tal»", "Solo «info»"],a:0,e:"Tu forma de escribir ya es parte de la evaluación."},
+    {t:"Comunicación",q:"¿Qué pones en el cuerpo del correo al enviar tu CV?",o:["Un saludo, el puesto, dos líneas sobre ti y una despedida", "Nada, solo el adjunto", "Tu historia completa"],a:0,e:"Un mensaje breve y claro invita a abrir tu CV."},
+    {t:"Comunicación",q:"No puedes asistir a una entrevista agendada. ¿Qué haces?",o:["Aviso con tiempo y pido reprogramar", "No aviso", "Aviso una hora después"],a:0,e:"Avisar a tiempo mantiene la puerta abierta."},
+    {t:"Comunicación",q:"¿Es buena idea enviar notas de voz a un reclutador?",o:["Mejor escribir, salvo que te pidan audio", "Sí, largas", "Sí, varias seguidas"],a:0,e:"Un mensaje escrito es más fácil de revisar y responder."},
+    {t:"Comunicación",q:"¿Cómo contestas una llamada de un número desconocido cuando buscas empleo?",o:["Con un saludo claro y diciendo mi nombre", "«¿Quién es?»", "No contesto nunca"],a:0,e:"Esa llamada puede ser una entrevista. Contesta como si lo fuera."},
+    {t:"Comunicación",q:"¿Qué haces con tus redes sociales públicas?",o:["Reviso que no haya contenido que me perjudique", "Nada, nadie las ve", "Las borro todas"],a:0,e:"Muchas empresas revisan las redes de sus candidatos."},
+    {t:"Comunicación",q:"¿Cómo rechazas una oferta que no te conviene?",o:["Con agradecimiento y respeto", "Sin responder", "Con críticas"],a:0,e:"Rechazar con respeto deja la puerta abierta para el futuro."},
+    {t:"Habilidades",q:"¿Cuál de estas es una habilidad técnica?",o:["Manejo de caja registradora", "Empatía", "Puntualidad"],a:0,e:"Las habilidades técnicas se aprenden para tareas específicas."},
+    {t:"Habilidades",q:"¿Qué significa ser proactivo?",o:["Adelantarte a los problemas y proponer soluciones", "Esperar instrucciones", "Hacer lo mínimo"],a:0,e:"Las empresas valoran a quien resuelve antes de que se lo pidan."},
+    {t:"Habilidades",q:"En Excel, ¿para qué sirve la función SUMA?",o:["Para sumar un rango de celdas", "Para cambiar el color", "Para imprimir"],a:0,e:"Es una de las funciones básicas que piden muchos puestos administrativos."},
+    {t:"Habilidades",q:"¿Qué es una atención al cliente de calidad?",o:["Escuchar, resolver y dar seguimiento", "Responder rápido aunque no se resuelva", "Transferir siempre la llamada"],a:0,e:"El cliente recuerda si le resolviste, no solo si le respondiste."},
+    {t:"Habilidades",q:"Un cliente molesto te grita. ¿Qué haces primero?",o:["Escucho con calma y reconozco su molestia", "Le grito también", "Lo ignoro"],a:0,e:"Sentirse escuchado baja la tensión y abre el camino a la solución."},
+    {t:"Habilidades",q:"¿Qué significa la puntualidad para un empleador?",o:["Responsabilidad y respeto", "Un detalle sin importancia", "Algo solo para gerentes"],a:0,e:"La puntualidad es una de las primeras cosas que nota un jefe."},
+    {t:"Habilidades",q:"Cometes un error en el trabajo. ¿Qué haces?",o:["Lo reconozco, aviso y propongo cómo corregirlo", "Lo escondo", "Culpo a otro"],a:0,e:"Reconocer un error a tiempo genera confianza."},
+    {t:"Habilidades",q:"¿Cómo organizas un día con muchas tareas?",o:["Priorizo por urgencia e importancia", "Siempre hago primero lo más fácil", "Improviso"],a:0,e:"Priorizar te asegura cumplir con lo que más importa."},
+    {t:"Habilidades",q:"¿Qué habilidad se valora más en ventas?",o:["Escuchar las necesidades del cliente", "Hablar sin parar", "Presionar siempre"],a:0,e:"Vende más quien entiende lo que el cliente necesita."},
+    {t:"Habilidades",q:"¿Qué valor tiene un certificado de un curso en línea?",o:["Demuestra que aprendiste algo nuevo por tu cuenta", "Ninguno", "Es obligatorio para cualquier empleo"],a:0,e:"Aprender por tu cuenta muestra iniciativa."},
+    {t:"Trabajo remoto",q:"¿Qué necesitas como mínimo para trabajar de forma remota?",o:["Internet estable, un equipo y un espacio tranquilo", "Solo el celular con datos", "Nada"],a:0,e:"Sin una conexión y un espacio adecuados, el trabajo remoto se complica."},
+    {t:"Trabajo remoto",q:"En un trabajo remoto, ¿cómo demuestras que cumples?",o:["Entregando a tiempo y comunicando mis avances", "Estando conectado todo el día sin entregar", "Enviando muchos mensajes"],a:0,e:"En remoto se mide lo que entregas, no las horas conectado."},
+    {t:"Trabajo remoto",q:"Una empresa remota te pide pagar para enviarte el equipo de trabajo. ¿Qué haces?",o:["Desconfío: es una estafa común", "Pago", "Pido dinero prestado"],a:0,e:"Una empresa real no le cobra al trabajador por su equipo."},
+    {t:"Trabajo remoto",q:"¿Qué herramientas se usan para videollamadas de trabajo?",o:["Zoom, Meet o Teams", "Una calculadora", "Un procesador de texto"],a:0,e:"Conviene probarlas antes de una entrevista o reunión."},
+    {t:"Trabajo remoto",q:"En un trabajo remoto con un equipo en otro país, ¿qué aclaras primero?",o:["Las zonas horarias para coordinar horarios", "Nada", "Solo mi horario"],a:0,e:"Coordinar horarios evita reuniones perdidas y malentendidos."},
+    {t:"Primer empleo",q:"¿Qué destacas en tu primer empleo si no tienes experiencia?",o:["Ganas de aprender, disponibilidad y lo que aprendiste en tus estudios", "Nada", "Que no sé hacer nada"],a:0,e:"Todos empezaron sin experiencia. Muestra lo que sí puedes aportar."},
+    {t:"Primer empleo",q:"¿Qué son las prácticas profesionales?",o:["Una forma de ganar experiencia real mientras estudias o al graduarte", "Un castigo", "Un trabajo sin horario"],a:0,e:"Las prácticas suelen abrir la puerta al primer empleo formal."},
+    {t:"Derechos",q:"En Panamá, ¿cuántos días de vacaciones corresponden por cada 11 meses de trabajo continuo?",o:["15 días", "30 días", "7 días"],a:1,e:"El Código de Trabajo establece 30 días de vacaciones por cada 11 meses de trabajo continuo."},
+    {t:"Derechos",q:"En Panamá, ¿cuánto puede durar como máximo el período de prueba?",o:["Tres meses", "Un año", "Seis meses"],a:0,e:"El Código de Trabajo permite un período de prueba de hasta tres meses."},
+    {t:"Derechos",q:"En Panamá, ¿cuál es la jornada diurna máxima?",o:["8 horas al día y 48 a la semana", "12 horas al día", "No hay límite"],a:0,e:"El Código de Trabajo fija la jornada diurna en un máximo de 8 horas diarias y 48 semanales."},
+    {t:"Derechos",q:"¿Qué documento conviene pedir al terminar un empleo?",o:["Una carta de trabajo o de referencia", "Nada", "El uniforme"],a:0,e:"Una carta de trabajo respalda tu experiencia en la próxima aplicación."},
+    {t:"Derechos",q:"¿Dónde puedes consultar dudas sobre tus derechos laborales en Panamá?",o:["En el Ministerio de Trabajo (MITRADEL)", "En un grupo de memes", "En ningún lugar"],a:0,e:"El Ministerio de Trabajo orienta a trabajadores sobre sus derechos."},
+    {t:"Búsqueda",q:"¿Qué haces mientras esperas respuesta de varias aplicaciones?",o:["Sigo aplicando y preparándome", "Dejo de buscar", "Llamo a todas cada día"],a:0,e:"Seguir en movimiento aumenta tus oportunidades."},
+    {t:"Búsqueda",q:"Te ofrecen un trabajo temporal mientras buscas algo estable. ¿Qué consideras?",o:["Que me da experiencia, ingresos y contactos", "Que no sirve de nada", "Que me impide seguir buscando"],a:0,e:"Un trabajo temporal también suma a tu CV y a tu red de contactos."}
+  ];
+  var QUESTIONS=[
+    {q:"Háblame de ti.",why:"Quieren un resumen de tu perfil que tenga relación con el puesto, no tu historia de vida.",how:"Presente: qué haces hoy. Pasado: una experiencia clave. Futuro: por qué este puesto encaja contigo."},
+    {q:"¿Por qué quieres trabajar aquí?",why:"Quieren saber si te interesa esta empresa o cualquier trabajo.",how:"Menciona algo concreto de la empresa y conéctalo con lo que tú puedes aportar."},
+    {q:"¿Cuál es tu mayor debilidad?",why:"Evalúan si te conoces y si trabajas en mejorar.",how:"Di una debilidad real que no sea clave para el puesto y explica qué estás haciendo para mejorarla."},
+    {q:"Cuéntame de un problema que resolviste en el trabajo.",why:"Quieren ver cómo piensas y actúas bajo presión.",how:"Usa este orden: situación, qué tenías que lograr, qué hiciste tú y qué resultado obtuviste."},
+    {q:"¿Dónde te ves en cinco años?",why:"Buscan saber si piensas quedarte y crecer.",how:"Habla de crecer en el área del puesto, aprendiendo y asumiendo más responsabilidades."},
+    {q:"¿Por qué dejaste tu último trabajo?",why:"Revisan si hablas mal de otros o si hubo un problema.",how:"Enfócate en lo que buscas ahora, sin críticas a tu empleador anterior."},
+    {q:"¿Cuál es tu expectativa salarial?",why:"Quieren saber si estás dentro de su presupuesto.",how:"Investiga cuánto se paga en el mercado, da un rango realista y muestra apertura a conversarlo."},
+    {q:"¿Cómo manejas la presión?",why:"Evalúan si mantienes la calma y cumples.",how:"Da un ejemplo real: qué pasó, cómo te organizaste y cómo terminó."},
+    {q:"¿Prefieres trabajar solo o en equipo?",why:"Buscan que te adaptes a las dos formas.",how:"Di que puedes hacer ambas y da un ejemplo corto de cada una."},
+    {q:"¿Qué sabes de nuestra empresa?",why:"Comprueban si te preparaste.",how:"Menciona a qué se dedica, algo reciente de la empresa y por qué te llamó la atención."},
+    {q:"¿Por qué deberíamos contratarte?",why:"Te piden que conectes tus fortalezas con lo que necesitan.",how:"Elige dos o tres fortalezas que coincidan con los requisitos del anuncio y da una prueba de cada una."},
+    {q:"¿Tienes alguna pregunta para nosotros?",why:"Una respuesta de «no» se ve como falta de interés.",how:"Ten dos preguntas listas, por ejemplo cómo es el equipo o qué esperan de ti en los primeros tres meses."},
+    {q:"Cuéntame de un conflicto con un compañero.",why:"Evalúan cómo manejas los desacuerdos.",how:"Cuenta la situación sin culpar a nadie y enfócate en cómo lo resolvieron."},
+    {q:"¿De qué logro te sientes más orgulloso?",why:"Quieren ver qué valoras y qué eres capaz de lograr.",how:"Elige un logro con un resultado medible y explica tu papel en él."},
+    {q:"¿Cómo te describirían tus compañeros?",why:"Quieren saber cómo te relacionas con otros.",how:"Da dos o tres cualidades y un ejemplo corto que las respalde."},
+    {q:"¿Qué te motiva en el trabajo?",why:"Evalúan si tu motivación encaja con el puesto.",how:"Conecta lo que te motiva con tareas reales del puesto."},
+    {q:"¿Cómo reaccionas ante una crítica?",why:"Evalúan si aceptas la retroalimentación.",how:"Cuenta una crítica que recibiste y qué cambiaste gracias a ella."},
+    {q:"Cuéntame de una vez que fallaste.",why:"Quieren ver si asumes tus errores y aprendes de ellos.",how:"Describe el error sin excusas, qué hiciste para corregirlo y qué aprendiste."},
+    {q:"¿Cómo organizas tu tiempo cuando tienes muchas tareas?",why:"Evalúan tu capacidad de priorizar.",how:"Explica tu método, por ejemplo una lista por urgencia e importancia, con un caso real."},
+    {q:"¿Qué harías en tus primeros 30 días aquí?",why:"Quieren ver iniciativa y realismo.",how:"Aprender los procesos, conocer al equipo y lograr un primer resultado concreto."},
+    {q:"¿Por qué has cambiado varias veces de trabajo?",why:"Les preocupa que te vayas pronto.",how:"Explica los motivos con honestidad y deja claro que ahora buscas estabilidad."},
+    {q:"¿Qué harías si no estás de acuerdo con tu jefe?",why:"Evalúan respeto y comunicación.",how:"Plantear tu punto en privado, con argumentos, y respetar la decisión final."},
+    {q:"¿Cuál ha sido tu trabajo favorito y por qué?",why:"Descubren qué te motiva.",how:"Elige uno relacionado con el puesto y explica qué disfrutabas hacer."},
+    {q:"¿Qué te diferencia de otros candidatos?",why:"Quieren una razón concreta para elegirte.",how:"Menciona una combinación de habilidades o experiencias con una prueba."},
+    {q:"¿Tienes disponibilidad para fines de semana o turnos rotativos?",why:"Necesitan saber si encajas con el horario.",how:"Responde con honestidad. Si tienes límites, dilos con claridad y ofrece alternativas."},
+    {q:"¿Tienes experiencia con clientes difíciles?",why:"Evalúan tu paciencia y cómo manejas conflictos.",how:"Cuenta un caso real: qué pasó, cómo calmaste la situación y cómo terminó."},
+    {q:"¿Cómo manejas un reclamo que no es tu culpa?",why:"Evalúan si representas bien a la empresa.",how:"Escucha, ofrece una disculpa en nombre de la empresa y resuelve o escala, sin culpar a nadie."},
+    {q:"Véndeme este bolígrafo.",why:"Evalúan cómo vendes.",how:"Primero pregunta qué necesita el cliente y luego muestra cómo el producto lo resuelve."},
+    {q:"¿Cómo manejas un rechazo en ventas?",why:"Evalúan tu resistencia a la frustración.",how:"Explica que no lo tomas personal, que aprendes de cada rechazo y sigues. Da un ejemplo."},
+    {q:"¿Cómo cumples una meta de ventas mensual?",why:"Quieren ver organización y método.",how:"Divides la meta en semanas y días, das seguimiento a tus clientes y lo respaldas con un número real."},
+    {q:"¿Qué programas de computadora manejas?",why:"Verifican si conoces las herramientas del puesto.",how:"Nombra los que usas de verdad, para qué los usas y tu nivel real."},
+    {q:"¿Cómo manejas información confidencial?",why:"Evalúan tu discreción.",how:"Da un ejemplo de información que protegiste y las reglas que sigues."},
+    {q:"¿Cómo evitas errores en tareas repetitivas?",why:"Evalúan tu atención al detalle.",how:"Menciona tu forma de revisar, como listas de control, con un ejemplo."},
+    {q:"Encuentras un error en un documento que ya se envió. ¿Qué haces?",why:"Evalúan tu honestidad y reacción.",how:"Avisar pronto, corregirlo y proponer cómo evitar que se repita."},
+    {q:"¿Cómo controlas un inventario?",why:"Evalúan orden y método.",how:"Explica los conteos periódicos, los registros y cómo comparas entradas con salidas."},
+    {q:"Al cerrar el turno falta mercancía. ¿Qué haces?",why:"Evalúan responsabilidad y criterio.",how:"Volver a contar, revisar registros y reportar de inmediato, sin culpar a nadie sin pruebas."},
+    {q:"¿Tienes licencia de conducir y experiencia manejando?",why:"Es un requisito para algunos puestos.",how:"Responde con honestidad: tipo de licencia, años manejando y tu historial."},
+    {q:"¿Qué medidas de seguridad sigues en el trabajo?",why:"Evalúan si trabajas de forma segura.",how:"Menciona el equipo de protección y los procedimientos que sigues, con un ejemplo."},
+    {q:"Tienes dos emergencias al mismo tiempo. ¿Cómo priorizas?",why:"Evalúan tu criterio bajo presión.",how:"Atiende primero lo que pone en riesgo a las personas, avisa de la situación y pide apoyo si hace falta."},
+    {q:"Cuéntame de una falla que diagnosticaste.",why:"Quieren ver cómo razonas un problema técnico.",how:"Describe el síntoma, los pasos para encontrar la causa, la solución y cómo evitaste que se repitiera."},
+    {q:"¿Cómo explicas un problema técnico a alguien que no es técnico?",why:"Evalúan tu comunicación.",how:"Usa palabras simples, una comparación y di qué harás y cuánto tardará."},
+    {q:"¿Qué haces si no sabes cómo reparar algo?",why:"Evalúan honestidad y seguridad.",how:"Admitirlo, consultar el manual o a un compañero y nunca arriesgar la seguridad."},
+    {q:"¿Cómo te mantienes al día en tu área?",why:"Evalúan tus ganas de aprender.",how:"Menciona cursos, videos o lecturas, y algo concreto que aprendiste hace poco."},
+    {q:"¿Qué harías si un compañero no cumple su parte?",why:"Evalúan cómo manejas conflictos.",how:"Hablar primero con él, ofrecer ayuda y, si sigue igual, informar al supervisor."},
+    {q:"¿Has liderado un equipo?",why:"Evalúan tu potencial de liderazgo.",how:"Aunque haya sido algo informal, cuenta cómo organizaste al grupo y qué lograron."},
+    {q:"¿Cómo motivarías a un equipo desanimado?",why:"Evalúan tu liderazgo.",how:"Escuchar al equipo, fijar metas pequeñas y reconocer cada logro."},
+    {q:"¿Cómo repartes tareas en un equipo?",why:"Evalúan organización y liderazgo.",how:"Según las fortalezas de cada persona, con instrucciones claras y seguimiento."},
+    {q:"¿Cómo te organizas trabajando desde casa?",why:"Evalúan tu disciplina.",how:"Explica tu horario, tu espacio de trabajo, tus herramientas y cómo comunicas avances."},
+    {q:"¿Cómo te comunicas con un equipo remoto?",why:"Evalúan tu comunicación a distancia.",how:"Mensajes claros, actualizaciones frecuentes y videollamadas cuando hace falta."},
+    {q:"Se cae tu internet en una reunión importante. ¿Qué haces?",why:"Evalúan tu capacidad de reacción.",how:"Tener un plan B como datos móviles, avisar rápido y retomar lo pendiente."},
+    {q:"¿Por qué quieres trabajar de forma remota?",why:"Quieren saber si es por productividad o solo comodidad.",how:"Habla de tu disciplina y tus resultados trabajando por tu cuenta."},
+    {q:"No tienes experiencia. ¿Por qué deberíamos contratarte?",why:"Buscan potencial.",how:"Muestra tus ganas de aprender, lo que aprendiste estudiando, tus proyectos y tu disponibilidad."},
+    {q:"¿Qué aprendiste en tus estudios que sirva para este puesto?",why:"Conectan tu formación con el trabajo.",how:"Menciona una materia o proyecto concreto y cómo lo aplicarías aquí."},
+    {q:"¿Cómo manejas estudiar y trabajar a la vez?",why:"Evalúan organización.",how:"Explica cómo distribuyes tu tiempo con un ejemplo real."},
+    {q:"Un cliente te pide algo que va contra las reglas de la empresa. ¿Qué haces?",why:"Evalúan criterio y servicio.",how:"Explicar con amabilidad por qué no se puede y ofrecer una alternativa permitida."},
+    {q:"Ves a un compañero tomando algo que no es suyo. ¿Qué haces?",why:"Evalúan tu ética.",how:"No confrontarlo solo, sino reportarlo al supervisor por el canal adecuado."},
+    {q:"Terminas tus tareas antes de tiempo. ¿Qué haces?",why:"Evalúan iniciativa.",how:"Pedir más trabajo, ayudar a un compañero o aprender algo útil para el puesto."},
+    {q:"¿Cómo reaccionas ante un cambio de última hora?",why:"Evalúan flexibilidad.",how:"Mantener la calma, reorganizarte y contar un ejemplo real."},
+    {q:"Describe un día típico en tu último trabajo.",why:"Quieren entender tu experiencia real.",how:"Sé breve y destaca las tareas que se relacionan con este puesto."},
+    {q:"¿Qué no te gustaba de tu trabajo anterior?",why:"Revisan si hablas mal de otros.",how:"Menciona algo neutral, sin críticas, y conéctalo con lo que buscas ahora."},
+    {q:"¿Qué esperas de un jefe?",why:"Evalúan si te adaptarás al equipo.",how:"Comunicación clara y retroalimentación, mostrando que te adaptas a distintos estilos."},
+    {q:"Te asignan una tarea que nunca has hecho. ¿Qué haces?",why:"Evalúan tu capacidad de aprender.",how:"Preguntar, investigar, pedir un ejemplo y practicar hasta hacerlo bien."},
+    {q:"¿Cómo manejas la rutina?",why:"Evalúan constancia.",how:"Explica cómo mantienes la calidad y buscas pequeñas mejoras en lo que haces."},
+    {q:"¿Cuál es tu mayor fortaleza?",why:"Quieren saber qué aportas.",how:"Elige una relacionada con el puesto y da una prueba concreta."},
+    {q:"Un cliente te insulta. ¿Qué haces?",why:"Evalúan autocontrol.",how:"Mantener la calma, poner límites con respeto y pedir apoyo al supervisor si hace falta."},
+    {q:"¿Cómo manejas el dinero en caja?",why:"Evalúan responsabilidad.",how:"Contar al abrir y al cerrar, registrar cada movimiento y reportar cualquier diferencia."},
+    {q:"¿Cómo atiendes a varios clientes al mismo tiempo?",why:"Evalúan organización bajo presión.",how:"Saludar a todos, atender en orden y avisar cuánto tendrán que esperar."},
+    {q:"No hay el producto que busca el cliente. ¿Qué haces?",why:"Evalúan servicio y ventas.",how:"Ofrecer una alternativa, decir cuándo llega y anotar su pedido."},
+    {q:"¿Cómo manejas el estrés en temporada alta?",why:"Evalúan resistencia.",how:"Prepararte con anticipación, priorizar y cuidar tu energía, con un ejemplo."},
+    {q:"¿Qué significa para ti un buen servicio?",why:"Evalúan tu enfoque en el cliente.",how:"Da tu definición y un ejemplo de cuando lo lograste."},
+    {q:"¿Cómo das seguimiento a un cliente interesado?",why:"Evalúan tu método de ventas.",how:"Registrar el contacto, escribir en el tiempo acordado y aportar algo útil en cada mensaje."},
+    {q:"No alcanzaste tu meta del mes. ¿Qué haces?",why:"Evalúan responsabilidad.",how:"Analizar qué pasó, armar un plan de mejora y pedir apoyo si hace falta."},
+    {q:"¿Qué sabes de nuestros productos o servicios?",why:"Comprueban si te preparaste.",how:"Menciona dos productos o servicios concretos y lo que te llamó la atención."},
+    {q:"¿Cómo reaccionarías si te cambian de área?",why:"Evalúan flexibilidad.",how:"Con apertura para aprender y aportando la experiencia que ya tienes."},
+    {q:"¿Cuánto tiempo piensas quedarte en la empresa?",why:"Quieren saber si piensas en el largo plazo.",how:"Muestra interés en crecer dentro de la empresa sin prometer de más."},
+    {q:"¿Tienes otras entrevistas en proceso?",why:"Evalúan tu interés.",how:"Responde con honestidad, sin detalles, y deja claro tu interés en esta empresa."},
+    {q:"¿Cuándo podrías empezar?",why:"Planifican la incorporación.",how:"Da una fecha realista. Si hoy trabajas, respeta el aviso a tu empleador actual."},
+    {q:"Tu horario choca con un compromiso personal importante. ¿Qué haces?",why:"Evalúan responsabilidad.",how:"Avisar con anticipación, proponer una solución y cumplir lo acordado."},
+    {q:"¿Cómo te preparaste para esta entrevista?",why:"Evalúan tu interés real.",how:"Menciona algo concreto que investigaste de la empresa o del puesto."},
+    {q:"Un proyecto va retrasado. ¿Qué haces?",why:"Evalúan cómo manejas problemas.",how:"Identificar la causa, avisar a tiempo y proponer un nuevo plan."},
+    {q:"¿Cómo tomas decisiones difíciles?",why:"Evalúan tu criterio.",how:"Reúnes información, comparas opciones y consecuencias. Da un ejemplo."},
+    {q:"Un compañero te pide ayuda y estás ocupado. ¿Qué haces?",why:"Evalúan trabajo en equipo.",how:"Evaluar la urgencia y ayudar o acordar un momento para hacerlo."},
+    {q:"Cuéntame de una vez que superaste lo que se esperaba de ti.",why:"Quieren ver tu nivel de compromiso.",how:"Usa el orden situación, tarea, acción y resultado, con un número si es posible."},
+    {q:"Tu jefe te corrige frente a otros. ¿Cómo reaccionas?",why:"Evalúan autocontrol.",how:"Escuchar con calma y, si hace falta, conversarlo después en privado."},
+    {q:"¿Qué harías para mejorar la experiencia de nuestros clientes?",why:"Evalúan iniciativa y preparación.",how:"Propón una idea concreta basada en lo que investigaste de la empresa."},
+    {q:"¿Qué haces cuando no entiendes una instrucción?",why:"Evalúan comunicación.",how:"Preguntar y repetir lo que entendiste para confirmar."},
+    {q:"¿Te consideras una persona puntual?",why:"Quieren pruebas, no solo un sí.",how:"Da un ejemplo y los hábitos que te ayudan a llegar a tiempo."},
+    {q:"¿Cómo te sientes trabajando con supervisión constante?",why:"Evalúan adaptación.",how:"Lo ves como una oportunidad de aprender y comunicas tus avances."},
+    {q:"¿Y trabajando sin supervisión?",why:"Evalúan autonomía.",how:"Explica cómo te organizas solo y cómo reportas lo que haces."},
+    {q:"¿Qué harías si te ofrecen un soborno?",why:"Evalúan tu ética.",how:"Rechazarlo con claridad y reportarlo."},
+    {q:"¿Qué es lo más importante que aprendiste en tu último empleo?",why:"Evalúan tu capacidad de aprender.",how:"Menciona un aprendizaje que puedas aplicar en este puesto."},
+    {q:"¿Cómo manejas quejas de clientes en redes sociales?",why:"Evalúan criterio y servicio.",how:"Responder rápido, pasar a privado si hace falta y dar una solución."},
+    {q:"Cometes un error con un cliente. ¿Qué haces?",why:"Evalúan responsabilidad.",how:"Disculparte, corregirlo y explicar cómo evitarás que se repita."},
+    {q:"¿Qué opinas de trabajar en turno nocturno?",why:"Necesitan saber si encajas con el horario.",how:"Responde con honestidad y explica cómo te organizarías."},
+    {q:"¿Qué tipo de ambiente laboral prefieres?",why:"Evalúan si encajas en la empresa.",how:"Menciona valores que coincidan con los de la empresa y tu capacidad de adaptarte."},
+    {q:"¿Cómo aprendes algo nuevo rápido?",why:"Evalúan tu forma de aprender.",how:"Explica tu método con un ejemplo reciente."},
+    {q:"¿Qué haces si no te llevas bien con un compañero?",why:"Evalúan profesionalismo.",how:"Mantener el respeto, conversar y enfocarte en el trabajo."},
+    {q:"¿Tienes alguna limitación de horario o traslado?",why:"Planifican tu disponibilidad.",how:"Responde con honestidad y menciona cómo lo resolverías."},
+    {q:"Si te contratamos, ¿qué resultado nos darías en seis meses?",why:"Evalúan tu visión y compromiso.",how:"Propón una meta concreta y realista para el puesto."},
+    {q:"¿Hay algo más que quieras que sepamos de ti?",why:"Es tu cierre.",how:"Resume dos fortalezas y cierra mostrando tu interés en el puesto."}
+  ];
+  var BADGES=[
+    {id:"r3",ico:"🔥",name:"Arranque",desc:"3 días seguidos",ok:function(s){return s.best>=3;}},
+    {id:"r7",ico:"📅",name:"Semana completa",desc:"7 días seguidos",ok:function(s){return s.best>=7;}},
+    {id:"r14",ico:"💼",name:"Dos semanas",desc:"14 días · +3 fichas",tk:3,ok:function(s){return s.best>=14;}},
+    {id:"r30",ico:"🏆",name:"Un mes",desc:"30 días · +5 fichas",tk:5,ok:function(s){return s.best>=30;}},
+    {id:"r60",ico:"👑",name:"Imparable",desc:"60 días · +8 fichas",tk:8,ok:function(s){return s.best>=60;}},
+    {id:"perf",ico:"🎯",name:"Trivia perfecta",desc:"3 de 3 en la trivia",ok:function(s){return (s.perfects||0)>=1;}},
+    {id:"p1",ico:"🎙️",name:"Primera práctica",desc:"Usaste el simulador",ok:function(s){return s.practices>=1;}},
+    {id:"d5",ico:"💪",name:"En forma",desc:"5 preguntas dominadas",ok:function(s){return mastered(s)>=5;}},
+    {id:"dall",ico:"🌟",name:"Entrevista lista",desc:"Primer grupo de 14 dominado · +3 fichas",tk:3,ok:function(s){return (s.simDone||0)>=1;}},
+    {id:"d50",ico:"🎓",name:"Experto en entrevistas",desc:"50 preguntas dominadas · +5 fichas",tk:5,ok:function(s){return mastered(s)>=50;}},
+    {id:"d100",ico:"🥇",name:"Maestro de entrevistas",desc:"Las 100 dominadas · +10 fichas",tk:10,ok:function(s){return mastered(s)>=QUESTIONS.length;}},
+    {id:"a10",ico:"📨",name:"Constancia",desc:"10 aplicaciones",ok:function(s){return (s.appsTotal||0)>=10;}},
+    {id:"a50",ico:"🚀",name:"A toda máquina",desc:"50 aplicaciones · +3 fichas",tk:3,ok:function(s){return (s.appsTotal||0)>=50;}},
+    {id:"bk",ico:"🔒",name:"Progreso seguro",desc:"Guardaste tu respaldo",ok:function(s){return !!s.backupDate;}}
+  ];
+
+  /* ---------- Utilidades ---------- */
+  function fmt(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function dkey(offset){var d=new Date();d.setDate(d.getDate()+(offset||0));return fmt(d);}
+  function parse(k){var p=k.split("-");return new Date(p[0],p[1]-1,p[2]);}
+  function gap(a,b){return Math.round((parse(b)-parse(a))/86400000);}
+  function weekId(k){var d=parse(k);d.setDate(d.getDate()-((d.getDay()+6)%7));return fmt(d);}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function falta(n,seg){return n===1?"Te falta 1 día"+(seg?" seguido":""):"Te faltan "+n+" días"+(seg?" seguidos":"");}
+  function plural(n,a,b){return n+" "+(n===1?a:b);}
+  function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+  function rng(seed){var a=seed;return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+  function quizFor(k){
+    var r=rng(hash("vpty-"+k)),idx=[],i;
+    while(idx.length<3){i=Math.floor(r()*QUIZ.length);if(idx.indexOf(i)<0)idx.push(i);}
+    var out=idx.map(function(n){
+      var q=QUIZ[n],ord=q.o.map(function(_,j){return j;}),j,t;
+      for(j=ord.length-1;j>0;j--){t=Math.floor(r()*(j+1));var x=ord[j];ord[j]=ord[t];ord[t]=x;}
+      return {t:q.t,q:q.q,o:ord.map(function(m){return q.o[m];}),a:ord.indexOf(q.a),e:q.e};
+    });
+    var ws=CONFIG.weekSponsor;
+    if(ws&&ws.active&&ws.quiz&&ws.quiz.length){
+      var sq=ws.quiz[hash("sp-"+k)%ws.quiz.length],so=sq.o.map(function(_,j){return j;}),m2,t2,x2;
+      for(m2=so.length-1;m2>0;m2--){t2=Math.floor(r()*(m2+1));x2=so[m2];so[m2]=so[t2];so[t2]=x2;}
+      out[2]={t:ws.name+" · Patrocinado",q:sq.q,o:so.map(function(m){return sq.o[m];}),a:so.indexOf(sq.a),e:sq.e};
+    }
+    return out;
+  }
+  var reduced=!!(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var ua=navigator.userAgent||"",inApp=/Instagram|FBAN|FBAV|musical_ly|Bytedance|TikTok|Line\//i.test(ua);
+  var canRec=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+
+  /* ---------- Estado ---------- */
+  var DEF={points:0,streak:0,best:0,lastDate:null,tasksDate:null,tasks:{},goldDays:[],code:null,tokens:CONFIG.welcomeTokens,shareDate:null,adDate:null,practices:0,rescue:null,lost:null,
+    name:"",area:"",profileSkip:false,quiz:null,chest:null,freezeWeek:null,frozen:null,apps:{},appsTotal:0,sim:{},simRec:true,badges:{},backupDate:null,perfects:0,code14:null,codePrize:null,simSet:null,simGroup:1,simDone:0,device:null,pending:[],verified:{}};
+  function withDefaults(s){s=s||{};for(var k in DEF){if(s[k]===undefined||s[k]===null&&DEF[k]!==null)s[k]=JSON.parse(JSON.stringify(DEF[k]));}return s;}
+  function load(){var s=null;try{s=JSON.parse(localStorage.getItem(KEY));}catch(e){}return withDefaults(s);}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+  var S=load(),today=dkey(0),yesterday=dkey(-1),justStamped=false,editingProfile=false;
+  if(!S.device){S.device=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():("d"+Date.now().toString(36)+Math.random().toString(36).slice(2,12)+Math.random().toString(36).slice(2,12));}
+  /* ---------- Servidor: racha anónima y códigos verificables ---------- */
+  function api(path,body){
+    if(!CONFIG.api)return Promise.reject();
+    var fd=new FormData(),k;fd.append("device",S.device);for(k in body)fd.append(k,body[k]);
+    return fetch(CONFIG.api+path,{method:"POST",body:fd}).then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});});
+  }
+  function syncSeals(){
+    S.pending=(S.pending||[]).filter(function(d){return gap(d,today)<=1;});
+    S.pending.forEach(function(d){
+      api("sello",{fecha:d}).then(function(res){if(res.ok){S.pending=S.pending.filter(function(x){return x!==d;});save();}}).catch(function(){});
+    });
+  }
+  var claiming={},claimFail={};
+  function claimCodes(){
+    [["p7",7,"code"],["p14",14,"code14"]].forEach(function(p){
+      var key=p[0];
+      if(S.best<p[1]||S.verified[key]||claiming[key])return;
+      claiming[key]=true;
+      api("codigo",{premio:key}).then(function(res){
+        claiming[key]=false;
+        if(res.ok&&res.d.codigo){S[p[2]]=res.d.codigo;S.verified[key]=true;if(key==="p7")S.codePrize=CONFIG.prize7;save();renderPrize();}
+        else if(res.d&&res.d.motivo==="racha"){claimFail[key]=true;renderPrize();}
+      }).catch(function(){claiming[key]=false;});
+    });
+  }
+  function applyPrize(p){S.tokens+=p.tokens||0;S.points+=p.pts||0;}
+  /* Cofre de otro día sin abrir: se entrega igual, nadie pierde su premio */
+  if(S.chest&&S.chest.date!==today&&!S.chest.opened){applyPrize(S.chest.prize);S.chest.opened=true;}
+  /* Racha: comodín semanal automático y rescate con fichas */
+  if(S.lastDate&&S.streak>0){
+    var g=gap(S.lastDate,today);
+    if(g===2&&S.freezeWeek!==weekId(today)){S.freezeWeek=weekId(today);S.lastDate=yesterday;S.frozen={n:S.streak,date:today};}
+    else if(g>=2){S.frozen=null;S.rescue=(g===2)?{streak:S.streak,gold:S.goldDays.slice(),date:today}:null;S.lost={n:S.streak,date:today};S.streak=0;S.goldDays=[];}
+  }
+  if(S.tasksDate!==today){S.tasksDate=today;S.tasks={};}
+  if(!S.quiz||S.quiz.date!==today)S.quiz={date:today,i:0,ans:[],pick:[]};
+  if(!S.simSet||!S.simSet.length){S.simSet=[];for(var z=0;z<14;z++)S.simSet.push(z);}
+  (function(){var k;for(k in S.apps){if(gap(k,today)>14)delete S.apps[k];}})();
+  save();
+
+  var $=function(id){return document.getElementById(id);};
+  function doneToday(){return S.lastDate===today;}
+  function quizDone(){return S.quiz.ans.length>=3&&S.quiz.i>=3;}
+  function levelOf(p){var l=LEVELS[0];LEVELS.forEach(function(x){if(p>=x.min)l=x;});return l;}
+  function mastered(s){var n=0,k;for(k in s.sim){if(s.sim[k]&&s.sim[k].r===3)n++;}return n;}
+  function freezeReady(){return S.freezeWeek!==weekId(dkey(1));}
+  var nextToast=0;
+  function toast(msg){
+    var now=Date.now(),start=Math.max(now,nextToast);nextToast=start+2300;
+    setTimeout(function(){var t=document.createElement("div");t.className="vr-toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},2100);},start-now);
+  }
+  function celebrate(big){
+    try{if(navigator.vibrate)navigator.vibrate(big?[40,60,90]:35);}catch(e){}
+    if(reduced)return;
+    var colors=["#0B3C8C","#C8102E","#D99A1E","#1E7B45"],n=big?46:26,i;
+    for(i=0;i<n;i++){var c=document.createElement("i");c.className="vr-cf";c.style.left=(Math.random()*100)+"vw";c.style.background=colors[i%colors.length];c.style.animationDelay=(Math.random()*0.35)+"s";c.style.transform="rotate("+Math.floor(Math.random()*180)+"deg)";document.body.appendChild(c);(function(el){setTimeout(function(){el.remove();},2200);})(c);}
+  }
+  function checkBadges(){
+    BADGES.forEach(function(b){
+      if(!S.badges[b.id]&&b.ok(S)){S.badges[b.id]=today;if(b.tk)S.tokens+=b.tk;toast("Nueva insignia: "+b.ico+" "+b.name+(b.tk?" · +"+b.tk+" fichas":""));}
+    });
+    save();
+  }
+
+  /* ---------- Cabecera y carnet ---------- */
+  function renderHeader(){
+    $("vr-points").textContent=S.points;$("vr-tokens").textContent=S.tokens;
+    $("vr-streak").textContent="🔥 "+plural(S.streak,"día","días");
+    var lv=levelOf(S.points),nx=LEVELS[LEVELS.indexOf(lv)+1];
+    $("vr-level").textContent=lv.name;
+    if(nx){$("vr-next").textContent=(nx.min-S.points)+" pts para "+nx.name;$("vr-bar").style.width=Math.round((S.points-lv.min)/(nx.min-lv.min)*100)+"%";}
+    else{$("vr-next").textContent="Nivel máximo";$("vr-bar").style.width="100%";}
+    var h="";LEVELS.forEach(function(l){h+='<div class="vr-lv'+(l===lv?" cur":"")+'"><b>'+l.name+'</b>'+l.desc+'<br>Desde '+l.min+' pts</div>';});
+    $("vr-levels").innerHTML=h;
+  }
+  function renderCard(){
+    var id=$("vr-id");
+    if(S.name){id.innerHTML='<span class="vr-card-name">'+esc(S.name)+'</span>'+(S.area?'<span class="vr-card-area">'+esc(S.area)+'</span>':'')+'<button class="vr-card-edit" id="vr-edit">Editar carnet</button>';$("vr-edit").addEventListener("click",function(){editingProfile=true;renderCard();});}
+    else id.innerHTML='<span class="vr-card-name">Tu carnet</span>'+(S.profileSkip?'<button class="vr-card-edit" id="vr-edit">Ponerle mi nombre</button>':'');
+    if(!S.name&&S.profileSkip)$("vr-edit").addEventListener("click",function(){editingProfile=true;renderCard();});
+    var filled=S.streak===0?0:((S.streak-1)%7)+1,week=S.streak===0?1:Math.floor((S.streak-1)/7)+1,h="",i;
+    $("vr-week").textContent="Semana "+week+" · récord: "+plural(S.best||0,"día","días");
+    var ws=CONFIG.weekSponsor,csp=$("vr-cardsp");
+    if(ws&&ws.active){csp.hidden=false;csp.innerHTML='Reto de la semana presentado por <b>'+esc(ws.name)+'</b> <span>Patrocinado</span>';}else{csp.hidden=true;csp.innerHTML="";}
+    var hideGoldToday=doneToday()&&S.chest&&S.chest.date===today&&!S.chest.opened;
+    for(i=1;i<=7;i++){
+      if(i<=filled){var gold=S.goldDays[i-1]===true&&!(hideGoldToday&&i===filled),nw=justStamped&&i===filled;h+='<div class="vr-stamp on'+(gold?" gold":"")+(nw?" new":"")+'" aria-label="Día '+i+' sellado">'+(gold?"★":"✓")+'</div>';}
+      else h+='<div class="vr-stamp" aria-label="Día '+i+' pendiente">'+i+'</div>';
+    }
+    $("vr-stamps").innerHTML=h;
+    var left=7-filled,f;
+    if(filled===7&&doneToday())f="¡Semana completa! Ganaste "+CONFIG.weekTokens+" fichas extra. Mañana empieza la semana "+(week+1)+".";
+    else if(!S.code)f=falta(7-S.streak,true)+" para ganar "+CONFIG.prize7+".";
+    else if(!S.code14&&S.streak<14)f=falta(14-S.streak,true)+" para ganar "+CONFIG.prize14+".";
+    else f=falta(left,false)+" para completar la semana y ganar "+CONFIG.weekTokens+" fichas extra.";
+    $("vr-foot").textContent=f;
+    var p=$("vr-profile");
+    if((!S.name&&!S.profileSkip)||editingProfile){
+      var opts='<option value="">¿Qué tipo de trabajo buscas?</option>';
+      CONFIG.areas.forEach(function(a){opts+='<option'+(a===S.area?" selected":"")+'>'+esc(a)+'</option>';});
+      p.innerHTML='<div class="vr-profile"><p>Ponle tu nombre a tu carnet</p><input class="vr-field" id="vr-pname" maxlength="24" placeholder="Tu nombre" value="'+esc(S.name)+'" autocomplete="given-name"><select class="vr-field" id="vr-parea" aria-label="Tipo de trabajo que buscas">'+opts+'</select><div class="vr-row"><button class="vr-btn alt small" id="vr-psave">Guardar mi carnet</button><button class="vr-btn ghost small" id="vr-pskip">Ahora no</button></div></div>';
+      $("vr-psave").addEventListener("click",function(){var n=$("vr-pname").value.trim();if(!n){$("vr-pname").focus();return;}S.name=n;S.area=$("vr-parea").value;editingProfile=false;save();renderCard();toast("Carnet guardado");});
+      $("vr-pskip").addEventListener("click",function(){S.profileSkip=true;editingProfile=false;save();renderCard();});
+    } else p.innerHTML="";
+  }
+
+  /* ---------- Avisos ---------- */
+  function renderNotice(){
+    var n=$("vr-notice");n.innerHTML="";
+    if(S.frozen&&S.frozen.date===today){
+      n.innerHTML='<div class="vr-note ok">❄️ Ayer no sellaste tu día, así que usamos tu comodín de esta semana. Tu racha de '+plural(S.frozen.n,"día","días")+' sigue en pie.</div>';return;
+    }
+    if(doneToday()){
+      if(S.streak>=3&&!S.backupDate)n.innerHTML='<div class="vr-note">Ya llevas '+plural(S.streak,"día","días")+'. Guarda tu código de respaldo para no perder tu racha si cambias de celular. Está al final de la página, en «Tu progreso».</div>';
+      return;
+    }
+    if(S.rescue&&S.rescue.date===today){
+      var can=S.tokens>=CONFIG.rescueCost;
+      n.innerHTML='<div class="vr-note warn">Tu racha de '+plural(S.rescue.streak,"día","días")+' se pausó porque ya usaste el comodín de esta semana. Puedes recuperarla hoy con '+CONFIG.rescueCost+' fichas.<button class="vr-btn gold" id="vr-rescue"'+(can?"":" disabled")+'>'+(can?"Recuperar mi racha · "+CONFIG.rescueCost+" fichas":"Te faltan "+(CONFIG.rescueCost-S.tokens)+" fichas para recuperarla")+'</button></div>';
+      $("vr-rescue").addEventListener("click",function(){
+        if(S.tokens<CONFIG.rescueCost)return;
+        S.tokens-=CONFIG.rescueCost;S.streak=S.rescue.streak;S.goldDays=S.rescue.gold;S.lastDate=yesterday;S.rescue=null;S.lost=null;save();render();toast("Racha recuperada. Ahora sella tu día de hoy.");
+      });
+    } else if(S.lost&&S.lost.date===today){
+      n.innerHTML='<div class="vr-note">Tu racha se reinició, pero tu récord de '+plural(S.best||S.lost.n,"día","días")+' queda guardado. Sella tu día hoy para empezar una nueva.</div>';
+    } else if(!S.lastDate){
+      n.innerHTML='<div class="vr-note">Así funciona: responde la trivia, sella tu día y abre tu cofre. Cada semana tienes un comodín gratis que protege tu racha si fallas un día. Tienes '+plural(S.tokens,"ficha","fichas")+' de bienvenida para probar el simulador.</div>';
+    }
+  }
+
+  /* ---------- Reto de la semana (patrocinador) ---------- */
+  function renderWeekSponsor(){
+    var ws=CONFIG.weekSponsor,box=$("vr-weeksp"),sub=$("vr-quizsub");
+    if(!ws||!ws.active){box.innerHTML="";sub.textContent="3 preguntas, las mismas para todos hoy. Respóndelas para sellar tu día.";return;}
+    sub.textContent="3 preguntas, las mismas para todos hoy. Esta semana, 1 de ellas es de parte de "+ws.name+".";
+    var mail=ws.email?"mailto:"+ws.email+"?subject="+encodeURIComponent(ws.subject)+"&body="+encodeURIComponent(ws.body):"";
+    box.innerHTML='<div class="vr-wsp"><div class="vr-wsp-top"><span>Reto de la semana presentado por '+esc(ws.name)+'</span><span class="vr-wsp-tag">Patrocinado</span></div><p class="vr-wsp-h">'+esc(ws.headline)+'</p><p>'+esc(ws.text)+'</p>'
+      +(mail?'<a class="vr-btn alt small" href="'+mail+'">'+esc(ws.cta)+'</a><button class="vr-btn ghost small" id="vr-wspcopy">Copiar correo</button><p class="vr-wsp-mail">Si no se abre tu correo, envía tu CV a <b>'+esc(ws.email)+'</b> con el asunto «'+esc(ws.subject)+'».</p>':'<p class="vr-hint" style="text-align:left">Pronto publicaremos cómo postularte.</p>')+'</div>';
+    if(mail)$("vr-wspcopy").addEventListener("click",function(){copyText(ws.email).then(function(){toast("Correo copiado");},function(){toast("Correo: "+ws.email);});});
+  }
+
+  /* ---------- Trivia ---------- */
+  function renderQuiz(){
+    var Q=quizFor(today),st=S.quiz,box=$("vr-quiz"),pips="",i;
+    for(i=0;i<3;i++){var c=i<st.ans.length?(st.ans[i]?"ok":"bad"):(i===st.i?"cur":"");pips+='<span class="vr-pip '+c+'"></span>';}
+    if(quizDone()){
+      var ok=st.ans.filter(Boolean).length,sq=st.ans.map(function(x){return x?"🟩":"🟥";}).join("");
+      box.innerHTML='<div class="vr-result"><div class="vr-squares" aria-label="'+ok+' de 3 correctas">'+sq+'</div><p class="vr-result-t">'+(ok===3?"¡Trivia perfecta!":ok===2?"¡Muy bien!":ok===1?"Vas aprendiendo":"Mañana te irá mejor")+'</p><p>Acertaste '+ok+' de 3 · +'+(ok*CONFIG.quizPoints+(ok===3?CONFIG.perfectBonus:0))+' puntos'+(ok===3?' (incluye bono)':'')+'</p></div>';
+      return;
+    }
+    var qi=st.i,q=Q[qi],answered=st.ans.length>qi,h='<div class="vr-quiz-top"><span>Pregunta '+(qi+1)+' de 3 · '+esc(q.t)+'</span><span class="vr-pips">'+pips+'</span></div><p class="vr-q">'+esc(q.q)+'</p>';
+    q.o.forEach(function(o,j){
+      var cls="";if(answered){if(j===q.a)cls=" ok";else if(j===st.pick[qi])cls=" bad";}
+      h+='<button class="vr-opt'+cls+'" data-j="'+j+'"'+(answered?" disabled":"")+'>'+esc(o)+'</button>';
+    });
+    if(answered){
+      h+='<div class="vr-expl"><b>'+(st.ans[qi]?"¡Correcto! +"+CONFIG.quizPoints+" puntos. ":"No era esa. ")+'</b>'+esc(q.e)+'</div><button class="vr-btn alt" id="vr-qnext">'+(qi<2?"Siguiente pregunta":"Ver mi resultado")+'</button>';
+    }
+    box.innerHTML=h;
+    if(!answered){
+      Array.prototype.forEach.call(box.querySelectorAll(".vr-opt"),function(b){
+        b.addEventListener("click",function(){
+          if(S.quiz.ans.length>qi)return;
+          var j=parseInt(b.getAttribute("data-j"),10),ok=j===q.a;
+          S.quiz.ans.push(ok);S.quiz.pick.push(j);
+          if(ok){S.points+=CONFIG.quizPoints;try{if(navigator.vibrate)navigator.vibrate(25);}catch(e){}}
+          if(S.quiz.ans.length===3&&S.quiz.ans.every(Boolean)){S.points+=CONFIG.perfectBonus;S.perfects=(S.perfects||0)+1;}
+          save();renderHeader();renderQuiz();
+        });
+      });
+    } else {
+      $("vr-qnext").addEventListener("click",function(){
+        S.quiz.i++;save();renderQuiz();renderSeal();renderShare();
+        if(quizDone()){checkBadges();renderBadges();if(S.quiz.ans.every(Boolean))celebrate(false);}
+      });
+    }
+  }
+  function renderSeal(){
+    var b=$("vr-complete"),done=doneToday(),ready=quizDone();
+    b.disabled=done||!ready;b.textContent=done?"Día sellado":"Sellar mi día";
+    b.style.display=done?"none":"block";
+    $("vr-hint").textContent=done?"":(ready?"¡Listo! Sella tu día y abre tu cofre.":"Responde las 3 preguntas para poder sellar tu día.");
+  }
+
+  /* ---------- Cofre ---------- */
+  function rollPrize(){
+    var r=Math.random(),tip=TIPS[Math.floor(Math.random()*TIPS.length)];
+    if(r<0.10)return {gold:true,tokens:2,pts:50,title:"★ ¡Cofre dorado!",text:"2 fichas, 50 puntos y un sello dorado en tu carnet."};
+    if(r<0.20)return {tokens:3,pts:0,title:"¡Premio grande!",text:"3 fichas para tu simulador."};
+    if(r<0.42)return {tokens:2,pts:0,title:"¡Doble ficha!",text:"2 fichas para tu simulador."};
+    if(r<0.60)return {tokens:1,pts:0,tip:tip,title:"Consejo exclusivo",text:"1 ficha y un consejo que no publicamos en redes:"};
+    return {tokens:1,pts:0,title:"¡Ficha ganada!",text:"1 ficha para tu simulador. Mañana podría tocarte el cofre dorado."};
+  }
+  function tomorrowText(){
+    var t=[];quizFor(dkey(1)).forEach(function(q){if(t.indexOf(q.t)<0)t.push(q.t);});
+    return "Mañana: trivia de "+(t.length>1?t.slice(0,-1).join(", ")+" y "+t[t.length-1]:t[0])+", y un cofre nuevo por abrir.";
+  }
+  function renderChest(){
+    var box=$("vr-chest");
+    if(!doneToday()||!S.chest||S.chest.date!==today){box.innerHTML="";return;}
+    var c=S.chest,p=c.prize;
+    if(!c.opened){
+      box.innerHTML='<div class="vr-chest"><p class="vr-chest-t">Tu cofre del día</p><button class="vr-chest-btn" id="vr-open" aria-label="Abrir mi cofre">🎁</button><button class="vr-btn gold small" id="vr-open2">Abrir mi cofre</button><p class="vr-hint">Puede traer fichas, un consejo exclusivo o un sello dorado.</p></div>';
+      var open=function(){
+        if(S.chest.opened)return;
+        var btn=$("vr-open");btn.classList.add("opening");$("vr-open2").disabled=true;
+        try{if(navigator.vibrate)navigator.vibrate([20,40,20,40,20]);}catch(e){}
+        setTimeout(function(){applyPrize(p);S.chest.opened=true;save();render();celebrate(!!p.gold);checkBadges();},reduced?0:1100);
+      };
+      $("vr-open").addEventListener("click",open);$("vr-open2").addEventListener("click",open);
+      return;
+    }
+    var extra=c.notes&&c.notes.length?'<p>'+c.notes.map(esc).join(" ")+'</p>':"";
+    box.innerHTML='<div class="vr-reward'+(p.gold?" gold":"")+'"><p class="vr-reward-t">'+esc(p.title)+'</p><p>'+esc(p.text)+'</p>'+(p.tip?'<p><b style="color:#fff">'+esc(p.tip)+'</b></p>':'')+extra+'<p class="vr-tomorrow">'+esc(tomorrowText())+'</p></div>';
+  }
+  function prizeBox(title,code,prize,legacy,key){
+    var body=code?'<div class="vr-code-val">'+esc(code)+'</div><p>'+(legacy?'Código de una versión anterior: envíalo por mensaje directo con una captura de tu carnet para reclamar ':'Código verificado. Envíalo por mensaje directo a Vacantes PTY en Instagram para reclamar ')+esc(prize)+'.</p><a class="vr-link" href="'+CONFIG.instagram+'" target="_blank" rel="noopener">Enviar mensaje directo</a>'
+      :(claimFail[key]?'<p>Todavía no tenemos registrados todos tus días en el sistema, por eso no podemos emitir tu código para '+esc(prize)+'. Sigue sellando tus días con internet activo. Si crees que es un error, escríbenos por mensaje directo con una captura de tu carnet.</p><a class="vr-link" href="'+CONFIG.instagram+'" target="_blank" rel="noopener">Enviar mensaje directo</a>'
+      :'<p>Estamos generando tu código verificado para '+esc(prize)+'. Necesitas conexión a internet; si no aparece, vuelve a abrir el reto más tarde.</p>');
+    return '<div class="vr-code"><p><b>'+title+'</b></p>'+body+'</div>';
+  }
+  function renderPrize(){
+    var box=$("vr-prize"),h="";
+    if(S.best>=14||S.code14)h+=prizeBox("Premio de 14 días seguidos",S.code14||null,CONFIG.prize14,!!S.code14&&!S.verified.p14,"p14");
+    if(S.best>=7||S.code)h+=prizeBox("Premio de 7 días seguidos",S.code||null,CONFIG.prize7,!!S.code&&!S.verified.p7,"p7");
+    box.innerHTML=h;
+  }
+  $("vr-complete").addEventListener("click",function(){
+    if(doneToday()||!quizDone())return;
+    var prize=rollPrize(),notes=[];
+    S.points+=CONFIG.sealPoints;S.streak+=1;S.best=Math.max(S.best||0,S.streak);
+    if(S.streak%7===1)S.goldDays=[!!prize.gold];else S.goldDays.push(!!prize.gold);
+    if(S.streak%7===0){S.tokens+=CONFIG.weekTokens;notes.push("¡Completaste la semana! +"+CONFIG.weekTokens+" fichas extra.");}
+    if(S.streak===7&&!S.verified.p7)notes.push("Desbloqueaste: "+CONFIG.prize7+". Tu código verificado aparece abajo.");
+    if(S.streak===14&&!S.verified.p14)notes.push("Desbloqueaste: "+CONFIG.prize14+". Tu código verificado aparece abajo.");
+    if(S.pending.indexOf(today)<0)S.pending.push(today);
+    S.lastDate=today;S.rescue=null;S.lost=null;S.frozen=null;
+    S.chest={date:today,opened:false,prize:prize,notes:notes};
+    justStamped=true;save();render();justStamped=false;celebrate(S.streak%7===0);checkBadges();renderBadges();
+    syncSeals();setTimeout(claimCodes,1500);
+  });
+
+  /* ---------- Misiones ---------- */
+  function renderMissions(){
+    var h="";
+    MISSIONS.forEach(function(t){var on=!!S.tasks[t.id];h+='<button class="vr-task" data-id="'+t.id+'" aria-pressed="'+on+'"><span class="vr-box">'+(on?"✓":"")+'</span><span class="vr-task-txt">'+t.txt+'</span><span class="vr-task-pts">+'+t.pts+'</span></button>';});
+    var n=S.apps[today]||0;
+    h+='<div class="vr-counter"><div class="vr-counter-txt">Aplicaciones de hoy<small>+'+CONFIG.appPoints+' pts cada una, hasta '+CONFIG.appMaxPerDay+' al día</small></div><button class="vr-step" id="vr-appminus" aria-label="Quitar una aplicación"'+(n<=0?" disabled":"")+'>−</button><span class="vr-count" aria-live="polite">'+n+'</span><button class="vr-step" id="vr-appplus" aria-label="Sumar una aplicación"'+(n>=20?" disabled":"")+'>+</button></div>';
+    $("vr-missions").innerHTML=h;
+    var week=0,k;for(k in S.apps){if(gap(k,today)<7)week+=S.apps[k];}
+    $("vr-weekapps").textContent=week>0?"Esta semana llevas "+plural(week,"aplicación","aplicaciones")+". Sigue así.":"";
+    Array.prototype.forEach.call(document.querySelectorAll("#vpty-reto .vr-task"),function(el){
+      el.addEventListener("click",function(){
+        var id=el.getAttribute("data-id"),t=MISSIONS.filter(function(x){return x.id===id;})[0];
+        S.tasks[id]=!S.tasks[id];S.points+=S.tasks[id]?t.pts:-t.pts;save();
+        if(t.link&&S.tasks[id])window.open(CONFIG.channel,"_blank","noopener");
+        renderHeader();renderMissions();
+      });
+    });
+    function setApps(v){
+      var before=Math.min(S.apps[today]||0,CONFIG.appMaxPerDay),after=Math.min(v,CONFIG.appMaxPerDay);
+      S.appsTotal=Math.max(0,(S.appsTotal||0)+(v-(S.apps[today]||0)));
+      S.apps[today]=v;S.points+=(after-before)*CONFIG.appPoints;save();renderHeader();renderMissions();checkBadges();renderBadges();
+    }
+    $("vr-appplus").addEventListener("click",function(){setApps((S.apps[today]||0)+1);});
+    $("vr-appminus").addEventListener("click",function(){setApps(Math.max(0,(S.apps[today]||0)-1));});
+  }
+
+  /* ---------- Patrocinador y compartir ---------- */
+  var adTimer=null;
+  function renderAd(){
+    if(adTimer)return;
+    var sp=CONFIG.sponsor.active?CONFIG.sponsor:CONFIG.house,tag=CONFIG.sponsor.active?"Patrocinado":"Mensaje de Vacantes PTY";
+    var logo=sp.logo?'<img src="'+sp.logo+'" alt="">':sp.initial;
+    var claimed=S.adDate===today;
+    $("vr-ad").innerHTML='<div class="vr-ad"><p class="vr-ad-tag">'+tag+'</p><div class="vr-ad-row"><div class="vr-ad-logo">'+logo+'</div><div><p class="vr-ad-name">'+sp.name+'</p><p class="vr-ad-text">'+sp.text+'</p></div></div><a class="vr-link" href="'+sp.url+'" target="_blank" rel="noopener sponsored">'+sp.cta+'</a><div class="vr-ad-bar" id="vr-adbar"'+(claimed?' hidden':'')+'><i id="vr-adfill"></i></div><button class="vr-btn gold" id="vr-adbtn"'+(claimed?" disabled":"")+'>'+(claimed?"Ya reclamaste tu ficha de hoy":"Ver mensaje del día · +1 ficha")+'</button></div>';
+    if(claimed)return;
+    $("vr-adbtn").addEventListener("click",function(){
+      var btn=this;
+      if(btn.getAttribute("data-ready")==="1"){S.tokens+=1;S.adDate=today;save();render();toast("+1 ficha");return;}
+      if(adTimer)return;
+      var t=CONFIG.adSeconds,fill=$("vr-adfill");btn.disabled=true;btn.textContent="Espera "+t+" s";
+      adTimer=setInterval(function(){
+        t--;fill.style.width=Math.round((CONFIG.adSeconds-t)/CONFIG.adSeconds*100)+"%";
+        if(t<=0){clearInterval(adTimer);adTimer=null;btn.disabled=false;btn.setAttribute("data-ready","1");btn.textContent="Reclamar mi ficha";}
+        else btn.textContent="Espera "+t+" s";
+      },1000);
+    });
+  }
+  function renderShare(){
+    var done=S.shareDate===today,qd=quizDone();
+    $("vr-share").innerHTML='<div class="vr-earn"><div class="vr-earn-txt"><b>'+(qd?"Comparte tu resultado":"Comparte el reto")+'</b>'+(qd?"Reta a alguien a superar tu trivia de hoy.":"Invita a alguien que busca empleo.")+'</div><button class="vr-btn gold" id="vr-sharebtn">'+(done?"Compartir":"+1 ficha")+'</button></div>';
+    $("vr-sharebtn").addEventListener("click",function(){
+      var url=location.href.split("#")[0],d=new Date(),txt;
+      if(qd){txt="Reto diario Vacantes PTY · "+String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"\n"+S.quiz.ans.map(function(x){return x?"🟩":"🟥";}).join("")+(S.streak>0?"\n🔥 "+plural(S.streak,"día","días")+" de racha":"")+"\n¿Me superas? Juega gratis:";}
+      else txt="Estoy haciendo el Reto diario de Vacantes PTY para prepararme para conseguir empleo 💼"+(S.streak>0?" Llevo "+plural(S.streak,"día","días")+" de racha.":"")+" Únete gratis:";
+      function reward(){if(S.shareDate===today)return;S.tokens+=1;S.shareDate=today;save();renderHeader();renderShare();toast("+1 ficha por compartir");}
+      if(navigator.share){navigator.share({title:"Reto diario · Vacantes PTY",text:txt,url:url}).then(reward).catch(function(){});}
+      else{window.open("https://wa.me/?text="+encodeURIComponent(txt+" "+url),"_blank","noopener");reward();}
+    });
+  }
+
+  /* ---------- Simulador ---------- */
+  var simBusy=false,simTimer=null,lastQ=-1,rec=null,recStream=null,recChunks=[];
+  function startRec(){
+    return navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+      recStream=st;recChunks=[];rec=new MediaRecorder(st);
+      rec.ondataavailable=function(e){if(e.data&&e.data.size)recChunks.push(e.data);};
+      rec.start();return true;
+    }).catch(function(){return false;});
+  }
+  function stopRec(cb){
+    if(!rec||rec.state==="inactive"){cb(null);return;}
+    rec.onstop=function(){
+      var type=rec.mimeType||"audio/webm",url=recChunks.length?URL.createObjectURL(new Blob(recChunks,{type:type})):null;
+      if(recStream)recStream.getTracks().forEach(function(t){t.stop();});
+      rec=null;recStream=null;cb(url);
+    };
+    rec.stop();
+  }
+  function setDone(){return S.simSet.every(function(i){return S.sim[i]&&S.sim[i].r===3;});}
+  function newGroup(){
+    var cur=S.simSet,unseen=[],seen=[],done=[],i,pick=[];
+    for(i=0;i<QUESTIONS.length;i++){if(cur.indexOf(i)>=0)continue;if(!S.sim[i])unseen.push(i);else if(S.sim[i].r!==3)seen.push(i);else done.push(i);}
+    [unseen,seen,done,cur.slice()].forEach(function(pool){
+      while(pick.length<14&&pool.length){var j=Math.floor(Math.random()*pool.length);var v=pool.splice(j,1)[0];if(pick.indexOf(v)<0)pick.push(v);}
+    });
+    S.simSet=pick;S.simGroup=(S.simGroup||1)+1;S.simDone=(S.simDone||0)+1;S.tokens+=2;save();
+  }
+  function simIdle(){
+    simBusy=false;
+    var can=S.tokens>=CONFIG.simCost,set=S.simSet,m=set.filter(function(i){return S.sim[i]&&S.sim[i].r===3;}).length,chips="",ws=CONFIG.weekSponsor;
+    set.forEach(function(i){var st=S.sim[i],c=st?(st.r===3?" master":" seen"):"";chips+='<span class="vr-chip'+c+'" title="'+esc(QUESTIONS[i].q)+'">'+(st?(st.r===3?"💪":"✓"):"")+'</span>';});
+    if(setDone()){
+      $("vr-sim").innerHTML='<p class="vr-q">¡Completaste el grupo '+(S.simGroup||1)+'!</p><p>Dominas las 14 preguntas de este grupo. En total dominas '+mastered(S)+' de '+QUESTIONS.length+'.</p><div class="vr-coll" aria-hidden="true">'+chips+'</div><button class="vr-btn gold" id="vr-newgroup">Abrir el grupo '+((S.simGroup||1)+1)+' · +2 fichas</button>';
+      $("vr-newgroup").addEventListener("click",function(){newGroup();celebrate(false);toast("Grupo "+S.simGroup+" desbloqueado · +2 fichas");checkBadges();renderHeader();renderBadges();simIdle();});
+      return;
+    }
+    $("vr-sim").innerHTML='<p><b>Grupo '+(S.simGroup||1)+': dominas '+m+' de 14.</b> Te mostramos primero las que aún no dominas. Al completar el grupo se abre uno nuevo.</p><div class="vr-coll" aria-hidden="true">'+chips+'</div><p class="vr-hint" style="text-align:left;margin-top:0">En total dominas '+mastered(S)+' de '+QUESTIONS.length+' preguntas.</p>'
+      +(canRec?'<label class="vr-check"><input type="checkbox" id="vr-recopt"'+(S.simRec?" checked":"")+'> Grabar mi voz para escucharme después</label>':'')
+      +'<button class="vr-btn alt" id="vr-simgo"'+(can?"":" disabled")+'>'+(can?"Practicar una pregunta · "+CONFIG.simCost+" ficha":"Necesitas "+CONFIG.simCost+" ficha")+'</button>'
+      +(ws&&ws.active&&ws.sim&&ws.sim.length?'<button class="vr-btn ghost" id="vr-simsp"'+(can?"":" disabled")+'>Pregunta técnica de la semana · '+esc(ws.name)+'</button>':'')
+      +(can?'<p class="vr-hint">La grabación se queda en tu celular. No la enviamos a ningún lado.</p>':'<p class="vr-hint">Gana fichas abriendo tu cofre diario, viendo el mensaje del día o compartiendo el reto.</p>');
+    if(canRec)$("vr-recopt").addEventListener("change",function(){S.simRec=this.checked;save();});
+    if(can){$("vr-simgo").addEventListener("click",function(){simStart(false);});if($("vr-simsp"))$("vr-simsp").addEventListener("click",function(){simStart(true);});}
+  }
+  function pickQuestion(){
+    var set=S.simSet,pool=set.filter(function(i){return !(S.sim[i]&&S.sim[i].r===3)&&i!==lastQ;});
+    if(!pool.length)pool=set.filter(function(i){return i!==lastQ;});
+    if(!pool.length)pool=set.slice();
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+  function simStart(sponsor){
+    if(S.tokens<CONFIG.simCost||simBusy)return;
+    simBusy=true;S.tokens-=CONFIG.simCost;save();renderHeader();
+    var idx=null,Q,ws=CONFIG.weekSponsor;
+    if(sponsor){Q=ws.sim[Math.floor(Math.random()*ws.sim.length)];}
+    else{idx=pickQuestion();lastQ=idx;Q=QUESTIONS[idx];}
+    function begin(recording){
+      var t=60;
+      $("vr-sim").innerHTML='<p style="color:#5A6A82">'+(sponsor?"Pregunta técnica de "+esc(ws.name)+" · Patrocinado":"El entrevistador pregunta:")+'</p><p class="vr-q">'+esc(Q.q)+'</p><div class="vr-sim-clock" id="vr-simclock">1:00</div>'+(recording?'<p class="vr-rec">Grabando tu respuesta</p>':'<p style="text-align:center">Responde en voz alta ahora.</p>')+'<button class="vr-btn ghost" id="vr-simend">Ya terminé mi respuesta</button>';
+      function end(){
+        if(simTimer){clearInterval(simTimer);simTimer=null;}
+        S.practices+=1;S.points+=5;save();renderHeader();
+        stopRec(function(url){
+          var head='<p class="vr-q">'+esc(Q.q)+'</p>'+(url?'<p><b>Escúchate:</b></p><audio controls src="'+url+'"></audio>':'')+'<div class="vr-sim-ans"><p><b>Qué quieren saber:</b> '+esc(Q.why)+'</p><p><b>Cómo responder:</b> '+esc(Q.how)+'</p></div>';
+          if(sponsor){
+            $("vr-sim").innerHTML=head+'<p class="vr-hint">+5 puntos por practicar</p><button class="vr-btn alt" id="vr-simback">Volver al simulador</button>';
+            $("vr-simback").addEventListener("click",function(){if(url)URL.revokeObjectURL(url);checkBadges();renderBadges();simIdle();});
+            return;
+          }
+          $("vr-sim").innerHTML=head+'<p style="margin-top:12px"><b>¿Cómo te fue con esta pregunta?</b> +5 puntos por practicar.</p><div class="vr-rate"><button data-r="1"><span>😬</span>Me costó</button><button data-r="2"><span>🙂</span>Bien</button><button data-r="3"><span>💪</span>La domino</button></div>';
+          Array.prototype.forEach.call(document.querySelectorAll("#vr-sim .vr-rate button"),function(b){
+            b.addEventListener("click",function(){
+              var r=parseInt(b.getAttribute("data-r"),10),prev=S.sim[idx];
+              S.sim[idx]={n:(prev?prev.n:0)+1,r:r};save();
+              if(r===3&&!(prev&&prev.r===3)){var gm=S.simSet.filter(function(i){return S.sim[i]&&S.sim[i].r===3;}).length;toast("Pregunta dominada · "+gm+" de 14 en este grupo");}
+              if(url)URL.revokeObjectURL(url);
+              checkBadges();renderBadges();simIdle();
+            });
+          });
+        });
+      }
+      $("vr-simend").addEventListener("click",end);
+      simTimer=setInterval(function(){t--;var c=$("vr-simclock");if(c)c.textContent="0:"+String(t).padStart(2,"0");if(t<=0)end();},1000);
+    }
+    if(canRec&&S.simRec){
+      $("vr-sim").innerHTML='<p style="text-align:center">Preparando el micrófono…</p>';
+      startRec().then(function(ok){if(!ok)toast("No pudimos usar el micrófono. Practica sin grabar.");begin(ok);});
+    } else begin(false);
+  }
+
+  /* ---------- Insignias ---------- */
+  function renderBadges(){
+    var h="",n=0;
+    BADGES.forEach(function(b){var on=!!S.badges[b.id];if(on)n++;h+='<div class="vr-badge'+(on?"":" off")+'"><span>'+b.ico+'</span><b>'+b.name+'</b>'+b.desc+'</div>';});
+    $("vr-badges").innerHTML=h;
+    $("vr-badges-sub").textContent="Tienes "+n+" de "+BADGES.length+".";
+  }
+
+  /* ---------- Respaldo ---------- */
+  function encodeState(){
+    var bytes=new TextEncoder().encode(JSON.stringify(S)),bin="",i;
+    for(i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);
+    return "VPTY1."+btoa(bin);
+  }
+  function decodeState(code){
+    code=(code||"").trim();var m=code.match(/VPTY1\.([A-Za-z0-9+\/=]+)/);if(!m)return null;
+    try{var bin=atob(m[1]),bytes=new Uint8Array(bin.length),i;for(i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);var o=JSON.parse(new TextDecoder().decode(bytes));return (o&&typeof o.points==="number"&&typeof o.streak==="number")?o:null;}catch(e){return null;}
+  }
+  function copyText(t){
+    if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(t);
+    return new Promise(function(res,rej){var a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");res();}catch(e){rej(e);}a.remove();});
+  }
+  function markBackup(){S.backupDate=today;save();checkBadges();renderBadges();renderBackup();renderNotice();}
+  function renderBackup(){
+    var last=S.backupDate?'<p class="vr-hint" style="text-align:left">Último respaldo: '+S.backupDate.split("-").reverse().join("/")+'. Haz uno nuevo cada tanto para guardar tu avance más reciente.</p>':"";
+    $("vr-backup").innerHTML=(inApp?'<div class="vr-note warn" style="margin:0 0 12px">Estás usando el navegador de una red social. Para que tu racha no se pierda, abre esta página en Chrome o Safari: toca los tres puntos (⋯) y elige «Abrir en el navegador».</div>':'')
+      +'<div class="vr-backup"><p>Tu racha se guarda en este navegador, sin registro. Si cambias de celular, borras los datos o abres la página desde otra app, usa tu código de respaldo para recuperarla.</p>'
+      +'<div class="vr-row"><button class="vr-btn alt small" id="vr-bkwa">Enviarme mi código por WhatsApp</button><button class="vr-btn ghost small" id="vr-bkcopy">Copiar mi código</button></div>'+last
+      +'<details><summary>Tengo un código de respaldo</summary><textarea id="vr-bkin" placeholder="Pega aquí tu código (empieza con VPTY1.)"></textarea><button class="vr-btn gold small" id="vr-bkrestore">Recuperar mi progreso</button></details></div>';
+    $("vr-bkwa").addEventListener("click",function(){
+      var txt="Mi código de respaldo del Reto diario Vacantes PTY. Es personal, no lo compartas. Pégalo en la sección «Tu progreso» para recuperar mi racha:\n\n"+encodeState();
+      window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank","noopener");markBackup();toast("Envíatelo a tu propio chat de WhatsApp");
+    });
+    $("vr-bkcopy").addEventListener("click",function(){copyText(encodeState()).then(function(){markBackup();toast("Código copiado. Guárdalo en tus notas o chats.");},function(){toast("No se pudo copiar. Usa el botón de WhatsApp.");});});
+    $("vr-bkrestore").addEventListener("click",function(){
+      var o=decodeState($("vr-bkin").value);
+      if(!o){toast("Ese código no es válido. Revisa que esté completo.");return;}
+      if(!window.confirm("Esto reemplazará el progreso de este navegador por el del código ("+plural(o.streak,"día","días")+" de racha, "+o.points+" puntos). ¿Continuar?"))return;
+      S=withDefaults(o);S.backupDate=S.backupDate||today;save();toast("Progreso recuperado");setTimeout(function(){location.reload();},900);
+    });
+  }
+
+  /* ---------- Reloj ---------- */
+  function tick(){
+    var now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
+    var s=Math.max(0,Math.floor((mid-now)/1000)),clock=String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+    var el=$("vr-timer");if(!el)return;
+    if(doneToday()){el.className="vr-timer done";el.innerHTML='<span>Día sellado ✓ Tu próxima trivia se abre en</span><b>'+clock+'</b>';}
+    else{
+      var fr=freezeReady(),urgent=S.streak>0&&!fr&&s<3*3600,msg;
+      if(S.streak===0)msg="Tiempo para sellar tu día de hoy";
+      else if(fr)msg="Sella hoy y suma a tu racha. Si no puedes, tu comodín de la semana la protege.";
+      else msg="Tiempo para mantener tu racha de "+plural(S.streak,"día","días")+" (ya usaste el comodín de esta semana)";
+      el.className="vr-timer"+(urgent?" urgent":"");el.innerHTML='<span>'+msg+'</span><b>'+clock+'</b>';
+    }
+    if(s===0)setTimeout(function(){location.reload();},1500);
+  }
+
+  function render(){renderHeader();renderCard();renderNotice();renderWeekSponsor();renderQuiz();renderSeal();renderChest();renderPrize();renderMissions();renderAd();renderShare();if(!simBusy)simIdle();renderBadges();renderBackup();tick();}
+  render();checkBadges();renderBadges();setInterval(tick,1000);
+  syncSeals();claimCodes();
+})();
+</script>
+<!-- ===== Fin Reto Diario v4 · Vacantes PTY ===== -->
