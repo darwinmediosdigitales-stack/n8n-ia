@@ -254,6 +254,10 @@ function vpty_upsert_lead( $data ) {
 	global $wpdb;
 	$table    = vpty_leads_table();
 	$existing = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE email = %s", $data['email'] ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	if ( ! $existing ) {
+		// A Reto diario player (no email yet) completing their profile with an email.
+		$existing = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE whatsapp = %s AND ( email IS NULL OR email = '' )", $data['whatsapp'] ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
 
 	$data['estado']        = 'activo';
 	$data['consentimiento'] = vpty_consent_text();
@@ -269,7 +273,7 @@ function vpty_upsert_lead( $data ) {
 		$data['variante']   = $existing['variante'];
 		$wpdb->update( $table, $data, array( 'id' => $existing['id'] ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$lead            = array_merge( $existing, $data );
-		$lead['_is_new'] = false;
+		$lead['_is_new'] = empty( $existing['email'] ); // First email for a Reto player: send the welcome.
 		return $lead;
 	}
 
@@ -426,14 +430,14 @@ add_action(
 		}
 		global $wpdb;
 		list( $where ) = vpty_lead_filters_sql();
-		$rows          = $wpdb->get_results( 'SELECT nombre, email, whatsapp, categorias, provincia, punto, variante, estado, consent_at, created_at FROM ' . vpty_leads_table() . " {$where} ORDER BY id DESC", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows          = $wpdb->get_results( 'SELECT nombre, apellido, email, whatsapp, profesion, categorias, provincia, punto, variante, estado, consent_at, created_at FROM ' . vpty_leads_table() . " {$where} ORDER BY id DESC", ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=leads-vacantespty-' . gmdate( 'Y-m-d' ) . '.csv' );
 		$out = fopen( 'php://output', 'w' );
 		fwrite( $out, "\xEF\xBB\xBF" ); // BOM so Excel opens accents correctly.
-		fputcsv( $out, array( 'Nombre', 'Correo', 'WhatsApp', 'Categorías', 'Provincia', 'Punto de captura', 'Variante', 'Estado', 'Consentimiento', 'Registrado' ) );
+		fputcsv( $out, array( 'Nombre', 'Apellido', 'Correo', 'WhatsApp', 'Profesión', 'Categorías', 'Provincia', 'Punto de captura', 'Variante', 'Estado', 'Consentimiento', 'Registrado' ) );
 		foreach ( $rows as $row ) {
 			// Prefix values that spreadsheets would evaluate as formulas (phone numbers are safe).
 			fputcsv( $out, array_map( fn( $v ) => preg_match( '/^([=@\t\r]|[+\-](?!\d+$))/', (string) $v ) ? "'" . $v : $v, $row ) );
@@ -488,13 +492,14 @@ function vpty_render_leads_page() {
 			?>
 		</p>
 		<table class="widefat striped">
-			<thead><tr><th><?php esc_html_e( 'Nombre', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Correo', 'vacantespty' ); ?></th><th>WhatsApp</th><th><?php esc_html_e( 'Áreas', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Provincia', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Punto', 'vacantespty' ); ?></th><th>Brevo</th><th><?php esc_html_e( 'Fecha', 'vacantespty' ); ?></th></tr></thead>
+			<thead><tr><th><?php esc_html_e( 'Nombre', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Correo', 'vacantespty' ); ?></th><th>WhatsApp</th><th><?php esc_html_e( 'Profesión', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Áreas', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Provincia', 'vacantespty' ); ?></th><th><?php esc_html_e( 'Punto', 'vacantespty' ); ?></th><th>Brevo</th><th><?php esc_html_e( 'Fecha', 'vacantespty' ); ?></th></tr></thead>
 			<tbody>
 				<?php foreach ( $rows as $row ) : ?>
 					<tr>
-						<td><?php echo esc_html( $row['nombre'] ); ?></td>
-						<td><?php echo esc_html( $row['email'] ); ?></td>
+						<td><?php echo esc_html( trim( $row['nombre'] . ' ' . $row['apellido'] ) ); ?></td>
+						<td><?php echo esc_html( (string) $row['email'] ); ?></td>
 						<td><?php echo esc_html( $row['whatsapp'] ); ?></td>
+						<td><?php echo esc_html( $row['profesion'] ); ?></td>
 						<td><?php echo esc_html( $row['categorias'] ); ?></td>
 						<td><?php echo esc_html( $row['provincia'] ); ?></td>
 						<td><?php echo esc_html( $row['punto'] . ( $row['variante'] ? ' (' . strtoupper( $row['variante'] ) . ')' : '' ) ); ?></td>
@@ -503,7 +508,7 @@ function vpty_render_leads_page() {
 					</tr>
 				<?php endforeach; ?>
 				<?php if ( ! $rows ) : ?>
-					<tr><td colspan="8"><?php esc_html_e( 'Todavía no hay registros.', 'vacantespty' ); ?></td></tr>
+					<tr><td colspan="9"><?php esc_html_e( 'Todavía no hay registros.', 'vacantespty' ); ?></td></tr>
 				<?php endif; ?>
 			</tbody>
 		</table>

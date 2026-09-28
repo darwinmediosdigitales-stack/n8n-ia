@@ -10,7 +10,7 @@ function vpty_options_schema() {
 		'general' => array(
 			'title'  => __( 'General', 'vacantespty' ),
 			'fields' => array(
-				'correo_marca'   => array( __( 'Correo de la marca (contacto y remitente)', 'vacantespty' ), 'email', '' ),
+				'correo_marca'   => array( __( 'Correo de la marca (contacto y remitente de todos los correos)', 'vacantespty' ), 'email', 'vacantes@empleoshoypanama.com' ),
 				'canal_whatsapp' => array( __( 'Canal de WhatsApp de Vacantes PTY', 'vacantespty' ), 'url', 'https://whatsapp.com/channel/0029VbCum9c2ER6cMRrrhX3h' ),
 				'instagram_user' => array( __( 'Usuario de Instagram (para mensajes directos)', 'vacantespty' ), 'text', 'vacantes_pty_' ),
 				'ga4_id'         => array( __( 'ID de Google Analytics 4 (G-XXXXXXX). Déjalo vacío si ya usas Site Kit.', 'vacantespty' ), 'text', '' ),
@@ -67,6 +67,16 @@ function vpty_opt( $key ) {
 	}
 	return '';
 }
+
+/* Every email the site sends (welcome, payments, WordPress notices) comes from the brand address. */
+add_filter(
+	'wp_mail_from',
+	function ( $from ) {
+		$brand = vpty_opt( 'correo_marca' );
+		return is_email( $brand ) ? $brand : $from;
+	}
+);
+add_filter( 'wp_mail_from_name', fn() => 'Vacantes PTY' );
 
 add_action(
 	'admin_menu',

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Vacantes PTY Core
  * Description:       Vacantes, categorías, provincias, banners de marcas, calculadora de salario, alertas de empleo (leads), planes de currículum con Yappy, Reto diario, sección Capacítate y datos estructurados para Google for Jobs.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Vacantes PTY
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VPTY_VERSION', '1.2.0' );
+define( 'VPTY_VERSION', '1.3.0' );
 define( 'VPTY_FILE', __FILE__ );
 define( 'VPTY_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VPTY_URL', plugin_dir_url( __FILE__ ) );

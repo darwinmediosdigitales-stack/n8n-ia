@@ -39,6 +39,8 @@ function vpty_reto_client_config() {
 			'initial' => 'V',
 		),
 		'api'        => esc_url_raw( rest_url( 'vpty/v1/reto/' ) ),
+		'consent'    => vpty_consent_text(),
+		'privacy'    => home_url( '/politica-de-privacidad/' ),
 	);
 }
 
@@ -69,6 +71,15 @@ add_action(
 				'methods'             => 'POST',
 				'permission_callback' => '__return_true',
 				'callback'            => 'vpty_rest_reto_sello',
+			)
+		);
+		register_rest_route(
+			'vpty/v1',
+			'/reto/registro',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => 'vpty_rest_reto_registro',
 			)
 		);
 		register_rest_route(
@@ -143,6 +154,56 @@ function vpty_rest_reto_sello( WP_REST_Request $request ) {
 		array( 'device' => $device )
 	);
 	return new WP_REST_Response( array( 'ok' => true, 'racha' => $streak ), 200 );
+}
+
+/**
+ * Player card from the game (name, last name, profession, WhatsApp). Stored with
+ * the other leads, keyed by WhatsApp because the game doesn't ask for an email.
+ */
+function vpty_rest_reto_registro( WP_REST_Request $request ) {
+	global $wpdb;
+	$rate_key = 'vpty_rl_' . substr( vpty_client_ip_hash(), 0, 20 );
+	$hits     = (int) get_transient( $rate_key );
+	if ( $hits >= 8 ) {
+		return new WP_REST_Response( array( 'ok' => false ), 429 );
+	}
+	set_transient( $rate_key, $hits + 1, 10 * MINUTE_IN_SECONDS );
+
+	$nombre    = sanitize_text_field( (string) $request->get_param( 'nombre' ) );
+	$apellido  = sanitize_text_field( (string) $request->get_param( 'apellido' ) );
+	$profesion = sanitize_text_field( (string) $request->get_param( 'profesion' ) );
+	$whatsapp  = preg_replace( '/\D+/', '', (string) $request->get_param( 'whatsapp' ) );
+	if ( strlen( $whatsapp ) === 11 && 0 === strpos( $whatsapp, '507' ) ) {
+		$whatsapp = substr( $whatsapp, 3 );
+	}
+	if ( '' === $nombre || '' === $apellido || '' === $profesion || ! preg_match( '/^[0-9]{8}$/', $whatsapp ) || ! $request->get_param( 'consentimiento' ) ) {
+		return new WP_REST_Response( array( 'ok' => false ), 400 );
+	}
+
+	$table = vpty_leads_table();
+	$data  = array(
+		'nombre'         => mb_substr( $nombre, 0, 80 ),
+		'apellido'       => mb_substr( $apellido, 0, 80 ),
+		'profesion'      => mb_substr( $profesion, 0, 120 ),
+		'whatsapp'       => '+507' . $whatsapp,
+		'device'         => vpty_reto_device( $request->get_param( 'device' ) ),
+		'estado'         => 'activo',
+		'consentimiento' => vpty_consent_text(),
+		'consent_at'     => current_time( 'mysql' ),
+		'ip_hash'        => vpty_client_ip_hash(),
+	);
+	$existing = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$table} WHERE whatsapp = %s", $data['whatsapp'] ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	if ( $existing ) {
+		$saved = false !== $wpdb->update( $table, $data, array( 'id' => $existing['id'] ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	} else {
+		$data['email']      = null;
+		$data['punto']      = 'reto';
+		$data['token']      = wp_generate_password( 32, false );
+		$data['created_at'] = current_time( 'mysql' );
+		$saved              = (bool) $wpdb->insert( $table, $data ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	}
+	// On failure the phone keeps the card pending and retries later.
+	return new WP_REST_Response( array( 'ok' => $saved ), $saved ? 200 : 500 );
 }
 
 function vpty_reto_generate_code( $prefix ) {

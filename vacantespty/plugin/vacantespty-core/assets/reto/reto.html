@@ -47,6 +47,13 @@
 /* Perfil */
 #vpty-reto .vr-profile{margin-top:14px;padding:14px;border-radius:12px;background:var(--mist)}
 #vpty-reto .vr-profile p{font-size:15px;font-weight:600;margin-bottom:10px}
+#vpty-reto .vr-phone{display:flex;align-items:stretch;gap:0}
+#vpty-reto .vr-phone span{display:flex;align-items:center;padding:0 12px;border:1px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:#fff;font-weight:600;color:var(--muted);margin-bottom:8px}
+#vpty-reto .vr-phone .vr-field{border-radius:0 10px 10px 0}
+#vpty-reto .vr-consent{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--muted);margin:4px 0 8px}
+#vpty-reto .vr-consent input{flex:none;width:18px;height:18px;margin-top:1px}
+#vpty-reto .vr-consent a{text-decoration:underline}
+#vpty-reto .vr-profile p.vr-perr{font-size:13px;font-weight:500;color:#B42318;margin:0 0 8px;min-height:0}
 #vpty-reto .vr-field{display:block;width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;background:#fff;color:var(--ink);margin-bottom:8px}
 #vpty-reto .vr-field:focus{outline:3px solid var(--gold);outline-offset:1px}
 #vpty-reto .vr-row{display:flex;gap:8px}
@@ -599,6 +606,12 @@
       api("sello",{fecha:d}).then(function(res){if(res.ok){S.pending=S.pending.filter(function(x){return x!==d;});save();}}).catch(function(){});
     });
   }
+  /* Carnet: se envía a Vacantes PTY; si no hay internet se reintenta al volver */
+  function sendProfile(){
+    if(!S.regPending||!S.phone)return;
+    api("registro",{nombre:S.name,apellido:S.lastName||"",profesion:S.area,whatsapp:S.phone,consentimiento:1})
+      .then(function(res){if(res.ok){S.regPending=false;save();}}).catch(function(){});
+  }
   var claiming={},claimFail={};
   function claimCodes(){
     [["p7",7,"code"],["p14",14,"code14"]].forEach(function(p){
@@ -664,7 +677,7 @@
   }
   function renderCard(){
     var id=$("vr-id");
-    if(S.name){id.innerHTML='<span class="vr-card-name">'+esc(S.name)+'</span>'+(S.area?'<span class="vr-card-area">'+esc(S.area)+'</span>':'')+'<button class="vr-card-edit" id="vr-edit">Editar carnet</button>';$("vr-edit").addEventListener("click",function(){editingProfile=true;renderCard();});}
+    if(S.name){id.innerHTML='<span class="vr-card-name">'+esc(S.name+(S.lastName?" "+S.lastName:""))+'</span>'+(S.area?'<span class="vr-card-area">'+esc(S.area)+'</span>':'')+'<button class="vr-card-edit" id="vr-edit">Editar carnet</button>';$("vr-edit").addEventListener("click",function(){editingProfile=true;renderCard();});}
     else id.innerHTML='<span class="vr-card-name">Tu carnet</span>'+(S.profileSkip?'<button class="vr-card-edit" id="vr-edit">Ponerle mi nombre</button>':'');
     if(!S.name&&S.profileSkip)$("vr-edit").addEventListener("click",function(){editingProfile=true;renderCard();});
     var filled=S.streak===0?0:((S.streak-1)%7)+1,week=S.streak===0?1:Math.floor((S.streak-1)/7)+1,h="",i;
@@ -685,10 +698,26 @@
     $("vr-foot").textContent=f;
     var p=$("vr-profile");
     if((!S.name&&!S.profileSkip)||editingProfile){
-      var opts='<option value="">¿Qué tipo de trabajo buscas?</option>';
-      CONFIG.areas.forEach(function(a){opts+='<option'+(a===S.area?" selected":"")+'>'+esc(a)+'</option>';});
-      p.innerHTML='<div class="vr-profile"><p>Ponle tu nombre a tu carnet</p><input class="vr-field" id="vr-pname" maxlength="24" placeholder="Tu nombre" value="'+esc(S.name)+'" autocomplete="given-name"><select class="vr-field" id="vr-parea" aria-label="Tipo de trabajo que buscas">'+opts+'</select><div class="vr-row"><button class="vr-btn alt small" id="vr-psave">Guardar mi carnet</button><button class="vr-btn ghost small" id="vr-pskip">Ahora no</button></div></div>';
-      $("vr-psave").addEventListener("click",function(){var n=$("vr-pname").value.trim();if(!n){$("vr-pname").focus();return;}S.name=n;S.area=$("vr-parea").value;editingProfile=false;save();renderCard();toast("Carnet guardado");});
+      var opts='';
+      CONFIG.areas.forEach(function(a){opts+='<option value="'+esc(a)+'">';});
+      var consent=CONFIG.consent?esc(CONFIG.consent).replace("Política de Privacidad",'<a href="'+esc(CONFIG.privacy||"#")+'" target="_blank" rel="noopener">Política de Privacidad</a>'):"";
+      p.innerHTML='<div class="vr-profile"><p>Crea tu carnet de candidato</p>'
+        +'<input class="vr-field" id="vr-pname" maxlength="40" placeholder="Nombre" value="'+esc(S.name)+'" autocomplete="given-name">'
+        +'<input class="vr-field" id="vr-plast" maxlength="40" placeholder="Apellido" value="'+esc(S.lastName||"")+'" autocomplete="family-name">'
+        +'<input class="vr-field" id="vr-parea" maxlength="80" list="vr-areas" placeholder="Carrera o profesión que buscas" value="'+esc(S.area)+'"><datalist id="vr-areas">'+opts+'</datalist>'
+        +'<div class="vr-phone"><span>+507</span><input class="vr-field" id="vr-pphone" type="tel" inputmode="numeric" maxlength="9" placeholder="WhatsApp: 6000-0000" value="'+esc(S.phone||"")+'" autocomplete="tel-national"></div>'
+        +'<label class="vr-consent"><input type="checkbox" id="vr-pconsent"'+(S.phone?" checked":"")+'> <span>'+consent+'</span></label>'
+        +'<p class="vr-perr" id="vr-perr" role="status"></p>'
+        +'<div class="vr-row"><button class="vr-btn alt small" id="vr-psave">Guardar mi carnet</button><button class="vr-btn ghost small" id="vr-pskip">Ahora no</button></div></div>';
+      $("vr-psave").addEventListener("click",function(){
+        var n=$("vr-pname").value.trim(),l=$("vr-plast").value.trim(),a=$("vr-parea").value.trim(),ph=$("vr-pphone").value.replace(/\D/g,""),err=$("vr-perr");
+        if(ph.length===11&&ph.indexOf("507")===0)ph=ph.slice(3);
+        if(!n||!l||!a){err.textContent="Completa tu nombre, apellido y la carrera o profesión que buscas.";return;}
+        if(ph.length!==8){err.textContent="Escribe tu WhatsApp de 8 dígitos (ej. 6000-0000).";return;}
+        if(!$("vr-pconsent").checked){err.textContent="Para guardar tu carnet debes aceptar la casilla de consentimiento.";return;}
+        S.name=n;S.lastName=l;S.area=a;S.phone=ph;S.regPending=true;editingProfile=false;save();renderCard();toast("Carnet guardado");
+        sendProfile();
+      });
       $("vr-pskip").addEventListener("click",function(){S.profileSkip=true;editingProfile=false;save();renderCard();});
     } else p.innerHTML="";
   }
@@ -1039,7 +1068,7 @@
 
   function render(){renderHeader();renderCard();renderNotice();renderWeekSponsor();renderQuiz();renderSeal();renderChest();renderPrize();renderMissions();renderAd();renderShare();if(!simBusy)simIdle();renderBadges();renderBackup();tick();}
   render();checkBadges();renderBadges();setInterval(tick,1000);
-  syncSeals();claimCodes();
+  syncSeals();claimCodes();sendProfile();
 })();
 </script>
 <!-- ===== Fin Reto Diario v4 · Vacantes PTY ===== -->

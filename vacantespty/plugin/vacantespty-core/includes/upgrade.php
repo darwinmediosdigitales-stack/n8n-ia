@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * pages are created here whenever the stored schema version is older.
  */
 
-define( 'VPTY_SCHEMA_VERSION', '3' );
+define( 'VPTY_SCHEMA_VERSION', '4' );
 
 add_action( 'admin_init', 'vpty_maybe_upgrade' );
 
@@ -15,6 +15,7 @@ function vpty_maybe_upgrade() {
 		return;
 	}
 	vpty_create_tables();
+	vpty_leads_email_nullable();
 	vpty_create_growth_pages();
 	vpty_seed_resources();
 	update_option( 'vpty_schema_version', VPTY_SCHEMA_VERSION );
@@ -30,8 +31,11 @@ function vpty_create_tables() {
 		'CREATE TABLE ' . vpty_leads_table() . " (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			nombre varchar(80) NOT NULL DEFAULT '',
-			email varchar(120) NOT NULL DEFAULT '',
+			apellido varchar(80) NOT NULL DEFAULT '',
+			email varchar(120) DEFAULT NULL,
 			whatsapp varchar(20) NOT NULL DEFAULT '',
+			profesion varchar(120) NOT NULL DEFAULT '',
+			device varchar(40) NOT NULL DEFAULT '',
 			categorias varchar(255) NOT NULL DEFAULT '',
 			provincia varchar(40) NOT NULL DEFAULT '',
 			punto varchar(30) NOT NULL DEFAULT '',
@@ -45,6 +49,7 @@ function vpty_create_tables() {
 			created_at datetime DEFAULT NULL,
 			PRIMARY KEY  (id),
 			UNIQUE KEY email (email),
+			KEY whatsapp (whatsapp),
 			KEY estado (estado)
 		) $charset;"
 	);
@@ -95,6 +100,17 @@ function vpty_create_tables() {
 			UNIQUE KEY device_premio (device,premio)
 		) $charset;"
 	);
+}
+
+/**
+ * Reto players have no email, so email must be nullable: a UNIQUE index allows
+ * many NULLs but only one empty string. dbDelta doesn't change nullability.
+ */
+function vpty_leads_email_nullable() {
+	global $wpdb;
+	$table = vpty_leads_table();
+	$wpdb->query( "ALTER TABLE {$table} MODIFY email varchar(120) NULL DEFAULT NULL" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery, WordPress.DB.DirectDatabaseQuerySchemaChange
+	$wpdb->query( "UPDATE {$table} SET email = NULL WHERE email = ''" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 }
 
 function vpty_block_p( $text ) {
@@ -192,7 +208,7 @@ function vpty_privacy_policy_content() {
 		. vpty_block_h2( '1. Responsable del tratamiento' )
 		. vpty_block_p( 'El responsable de tus datos es Vacantes PTY. Para cualquier consulta sobre tus datos puedes escribirnos a [vpty_correo].' )
 		. vpty_block_h2( '2. Qué datos recopilamos' )
-		. vpty_block_p( 'Solo cuando te registras voluntariamente en nuestras alertas de vacantes: nombre, correo electrónico, número de WhatsApp, áreas de interés laboral y, de forma opcional, provincia. También registramos la fecha de tu consentimiento y el formulario desde el que te registraste. Si compras un plan de currículum, guardamos tu nombre, tu número de Yappy y el estado del pago.' )
+		. vpty_block_p( 'Solo cuando te registras voluntariamente en nuestras alertas de vacantes: nombre, correo electrónico, número de WhatsApp, áreas de interés laboral y, de forma opcional, provincia. Si creas tu carnet en el Reto diario, guardamos tu nombre, apellido, la carrera o profesión que buscas y tu número de WhatsApp. También registramos la fecha de tu consentimiento y el formulario desde el que te registraste. Si compras un plan de currículum, guardamos tu nombre, tu número de Yappy y el estado del pago.' )
 		. vpty_block_p( 'Para ver vacantes o aplicar a ellas <strong>no necesitas darnos ningún dato</strong>: la postulación se hace directamente con la empresa, en su propio canal.' )
 		. vpty_block_h2( '3. Para qué usamos tus datos' )
 		. "<!-- wp:list -->\n<ul class=\"wp-block-list\"><li>Enviarte vacantes y alertas de empleo según tus áreas de interés, por correo y WhatsApp.</li><li>Invitarte a nuestro canal de WhatsApp y a nuestras redes sociales.</li><li>Ofrecerte servicios de currículum, cursos y recursos de formación, y contenido patrocinado relacionado con el empleo.</li><li>Gestionar los planes de currículum que compres.</li><li>Elaborar estadísticas internas y anónimas para mejorar el sitio.</li></ul>\n<!-- /wp:list -->\n\n"
